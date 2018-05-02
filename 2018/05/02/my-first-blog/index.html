@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>减少 GC 开销的 5 个编码技巧 | ggboy</title><meta name="description"><meta name="generator" content="ggboy"><meta name="author" content="ggboy"><meta name="keywords"><meta name="HandheldFriendly" content="True"><meta name="MobileOptimized" content="320"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1,user-scalable=0"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="icon" type="image/png" sizes="128x128" href="/images/favicon-128.png"><link rel="icon" type="image/png" sizes="196x196" href="/images/favicon-196x196.png"><meta name="msapplication-TileColor" content="#FFFFFF"><meta name="msapplication-TileImage" content="mstile-144x144.png"><meta name="msapplication-square70x70logo" content="mstile-70x70.png"><meta name="msapplication-square150x150logo" content="mstile-150x150.png"><meta name="msapplication-wide310x150logo" content="mstile-310x150.png"><meta name="msapplication-square310x310logo" content="mstile-310x310.png"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head><body itemscope itemtype="https://schema.org/WebPage"><header itemscope itemtype="https://schema.org/WPHeader"><div class="logo"></div><h1><a href="/" alt="ggboy" title="ggboy" itemprop="headline">ggboy</a></h1><p itemprop="description"></p><nav itemscope itemtype="https://schema.org/SiteNavigationElement"><ul><li itemprop="name"><a href="/ " alt="home" title="home" itemprop="url">home</a></li><li itemprop="name"><a href="/articles" alt="articles" title="articles" itemprop="url">articles</a></li><li itemprop="name"><a href="/author" alt="author" title="author" itemprop="url">author</a></li></ul></nav><div class="space"></div></header><main itemscope itemtype="https://schema.org/Blog"><article class="full"><h1 itemprop="headline" class="post-heading">减少 GC 开销的 5 个编码技巧</h1><span class="post-meta"></span><br><br><blockquote>
+<p>来源：ImportNew - 踏雁寻花</p>
+</blockquote>
+<p>##1.  避免隐式的String字符串<br>String字符串是我们管理每一个数据结构中不可分割的一部分。它们被分配好了之后不会被修改。比如“+”操作就会分配一个链接来个字符串的新的字符串。更槽糕的是，这里分配了一个隐式的StringBuilder对象来链接俩个Stirng字符串。</p>
+<p>例如：</p>
+<pre class=" language-java"><code class="language-java">a <span class="token operator">=</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span><span class="token comment" spellcheck="true">// a和b是字符串 </span>
+</code></pre>
+<p>编译器背后就会生成这样的一段代码：</p>
+<pre class=" language-java"><code class="language-java">StringBuilder temp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span> <span class="token punctuation">(</span> a <span class="token punctuation">)</span><span class="token punctuation">.</span>temp<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span> b <span class="token punctuation">)</span><span class="token punctuation">;</span>   
+a <span class="token operator">=</span>  temp<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//一个新的String对象被分配</span>
+第一个对象“a”现在可以说是垃圾了
+</code></pre>
+<p>它变的更糟糕了。</p>
+<p>让我们来看这个例子：</p>
+<pre class=" language-java"><code class="language-java">String result <span class="token operator">=</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> arg<span class="token punctuation">;</span>
+result <span class="token operator">+=</span> <span class="token function">boo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"result="</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>在这个例子中，背后有三个StringBuilders对象被分配-每个都是“+”的操作所产生，和俩个额外的String对象，一个只有第二次分配的result，另一个是传入到print方法的String 参数，在看似非常简单的一句话中有5个额外的对象。</p>
+<p>试想一下在实际的代码场景中会发生什么，例如，通过xml或者文件的文本信息生成一个web页面的过程。在嵌套循环结构，你将会发现有成百上千的对象呗隐式的分配了。尽管JVM有处理这些垃圾的机制，但还是有很大的代价，代价有可能由你的用户来承担。</p>
+<p>解决方案：</p>
+<p>减少垃圾对象的一中方式就是善于使用 <code>StringBuilder</code> 来建对象，下面的例子实现了与上面相同的功能，然而仅仅生成了一个 <code>StringBuilder</code> 对象，和一个存储最终 result 的 String 对象。</p>
+<pre class=" language-java"><code class="language-java">StringBuilder vale <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token string">" result = "</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+value<span class="token punctuation">.</span><span class="token function">ppend</span><span class="token punctuation">(</span><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token function">boo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>通过留心的 <code>String</code> 和 <code>StringBuilder</code> 被隐式分配的可能，可以减少分配的短期的对象数量，尤其在有大量代码的位置</p>
+<p>## </p>
+<h2 id="2-计划好List的容量"><a href="#2-计划好List的容量" class="headerlink" title="2.计划好List的容量"></a>2.计划好List的容量</h2><p>像 <code>ArrayList</code> 这样的的动态集合用来存储一些长度可变化数据的基本结构。 <code>ArrayList</code> 和一些其他的集合（如 <code>HashMap</code> 和 <code>TreeMap</code>），底层都是通过 <code>Object[]</code> 数组来实现的。而 <code>String</code> （它们自己包装在 <code>Cahr[]</code> 数组中），<code>char</code> 数组的大小是不变的。name问题就出现了，如果它们的大小是不变的，我们怎么能放 <code>item</code> 记录到集合中去呢？ 答案是显而易见：分配更多的数组。</p>
+<p>看下面的例子：</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Item<span class="token operator">></span> items <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>item<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span>len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    item item <span class="token operator">=</span> <span class="token function">readNextItem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    items<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>len的值决定了循环结束时items 最终的大小。然而，最初，ArrayList的构造器并不知道这个值的大小，构造器会分配一个默认的Object数组的大小。一旦内部数组溢出，它就会被一个新的、并且足够大的数组代替，这就使之前分配的数组成为了垃圾。</p>
+<p>如果执行数千次的循环，那么就会进行更多次数的新数组分配操作，以及更多次数的旧数组回收操作。对于在大规模环境下运行的代码，这些分配和释放的操作应该尽可能从CPU周期中剔除。</p>
+<p>解决方案：</p>
+<p>无论什么时候，尽可能的给List或者Map分配一个初始容量，就像这样：</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>MyObject<span class="token operator">></span> items <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>MyObject<span class="token operator">></span><span class="token punctuation">(</span>len<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>因为List初始化，有足够的容量，所有这样可以减少内部数组在运行时不必要的分配和释放。如果你不知道确定的大小，最好估算一下这个值的平均值，添加一些缓冲，防止意外溢出。</p>
+<p>## </p>
+<h2 id="3-使用高效的含有原始类型的集合"><a href="#3-使用高效的含有原始类型的集合" class="headerlink" title="3.使用高效的含有原始类型的集合"></a>3.使用高效的含有原始类型的集合</h2><p>当前版本的Java编译器对于含有基本数据类型的键的数组以及Map的支持，是通过“装箱”来实现的 – 自动装箱就是将原始数据装入一个对应的对象中，这个对象可被GC分配和回收。</p>
+<p>这个会有一些负面的影响。Java可以通过使用内部数组实现大多数的集合。对于每一条被添加到HashMap中的key/value记录，都会分配一个存储key和value的内部对象。当处理map的时候非常可怕，这意味着，每当你放一条记录到map中的时候，就会有一次额外的分配和释放操作发生。这很可能导致数量过大，而不得不重新分配新的内部数组。当处理有成百上千条甚至更多记录的Map时，这些内部分配的操作将会使GC的成本增加。</p>
+<p>一种常见的情况就是保存一个原始类型（如id）和一个对象之间的映射。由于Java的HashMap设计只能包含对象类型（而非原始类型），这意味着，每个map的插入操作都可能分配一个额外的对象来存储原始类型（即装箱）。</p>
+<p>Integer.valueOf 方法缓存在-128 – 127之间的数值，但是对于范围之外的每一个数值，除了内部的key/value记录对象之外，一个新的对象也将会分配。这很可能超过了GC对于map三倍的开销。对于一个C++开发者来说，这真是让人不安的消息，在C++中，STL 模板可以非常高效地解决这样的问题。</p>
+<p>很幸运，这个问题将会在Java的下一个版本得到解决。到那时，这将会被一些提供基本的树形结构(Tree)、映射（Map），以及List等Java的基本类型的库迅速处理。我强力推荐Trove，我已经使用很长时间了，并且它在处理大规模的代码时真的可以减小GC的开销。</p>
+<p>## </p>
+<h2 id="4-使用数据流（Streams）代替内存缓冲区（in-memory-buffers）"><a href="#4-使用数据流（Streams）代替内存缓冲区（in-memory-buffers）" class="headerlink" title="4.使用数据流（Streams）代替内存缓冲区（in-memory buffers）"></a>4.使用数据流（Streams）代替内存缓冲区（in-memory buffers）</h2><p>在服务器应用程序中，我们操作的大多数的数据都是以文件或者是来自另一个web服务器或DB的网络数据流的形式呈现给我们。大多数情况下，传入的数据都是序列化的形式，在我们使用它们之前需要被反序列化成Java对象。这个过程非常容易产生大量的隐式分配。</p>
+<p>最简单的做法就是通过ByteArrayInputStream,ByteBuffer 把数据读入内存中，然后再进行反序列化。</p>
+<p>这是一个糟糕的举动，因为完整的数据在构造新的对象的时候，你需要为其分配空间，然后立刻又释放空间。并且，由于数据的大小你又不知道，你只能猜测 – 当超过初始化容量的时候，不得不分配和释放byte[]数组来存储数据。</p>
+<p>解决方案非常简单。像Java自带的序列化工具以及Google的Protocol Buffers等，它们可以将来自于文件或网络流的数据进行反序列化，而不需要保存到内存中，也不需要分配新的byte数组来容纳增长的数据。如果可以的话，你可以将这种方法和加载数据到内存的方法比较一下，相信GC会很感谢你的。</p>
+<p>## </p>
+<h2 id="5-List集合"><a href="#5-List集合" class="headerlink" title="5.List集合"></a>5.List集合</h2><p>不变性是很美好的，但是在大规模情境下，它就会有严重的缺陷。当传入一个List对象到方法中的情景。</p>
+<p>当方法返回一个集合，通常会很明智的在方法中创建一个集合对象（如ArrayList），填充它，并以不变的集合的形式返回。</p>
+<p>有些情况下，这并不会得到很好的效果。最明显的就是，当来自多个方法的集合调用一个final集合。因为不变性，在大规模数据情况下，会分配大量的临时集合。</p>
+<p>这种情况的解决方案将不会返回新的集合，而是通过使用单独的集合当做参数传入到那些方法代替组合的集合。</p>
+<p>例子1（低效率）：</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Item<span class="token operator">></span> items <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>Item<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>FileData fileData <span class="token operator">:</span> fileDatas<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 每一次调用都会创建一个存储内部临时数组的临时的列表</span>
+    items<span class="token punctuation">.</span><span class="token function">addAll</span><span class="token punctuation">(</span><span class="token function">readFileItem</span><span class="token punctuation">(</span>fileData<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>例子2：</p>
+<pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Item<span class="token operator">></span> items <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span>Item<span class="token operator">></span><span class="token punctuation">(</span>fileDatas<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> avgFileDataSize <span class="token operator">*</span> <span class="token number">1.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>FileData fileData <span class="token operator">:</span> fileDatas<span class="token punctuation">)</span><span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true">// 在内部添加记录</span>
+    <span class="token function">readFileItem</span><span class="token punctuation">(</span>fileData<span class="token punctuation">,</span> items<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>在例子2中，当违反不变性规则的时候（这通常应该被遵守），可以节省N个list的分配（以及任何临时数组的分配）。这将是对你GC的一个大大的优惠。</p>
+</article><br><br><span class="next-post"><a href="/2018/04/28/hello-world/" itemprop="url">Older Post ⇒</a></span><br><br><br></main></body></html>
