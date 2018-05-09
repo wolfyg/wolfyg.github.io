@@ -147,14 +147,8 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><blockquote>
-<p>1.为什么要需要查看Class版本？</p>
-</blockquote>
-<p>有一次在升级一个老项目的时候，更新某个class文件时运行报错，经过排查发现跟项目原先编译的版本不一致线上jdk是1.7而我自己的jdk是1.8编译环境，这里记录一下是如何排查发现编译版本不一致的问题。</p>
-<blockquote>
-<p>2.排查步骤</p>
-</blockquote>
-<ul>
+    <section class="markdown-content"><h3 id="1-为什么要需要查看Class版本？"><a href="#1-为什么要需要查看Class版本？" class="headerlink" title="1.为什么要需要查看Class版本？"></a>1.为什么要需要查看Class版本？</h3><p>有一次在升级一个老项目的时候，更新某个class文件时运行报错，经过排查发现跟项目原先编译的版本不一致线上jdk是1.7而我自己的jdk是1.8编译环境，这里记录一下是如何排查发现编译版本不一致的问题。</p>
+<h3 id="2-排查步骤"><a href="#2-排查步骤" class="headerlink" title="2.排查步骤"></a>2.排查步骤</h3><ul>
 <li>用jdk自带命令 javap</li>
 </ul>
 <pre class=" language-java"><code class="language-java">javap <span class="token operator">-</span>v 文件路径<span class="token operator">/</span>xx<span class="token punctuation">.</span><span class="token keyword">class</span>
@@ -349,7 +343,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="nav">none</ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-为什么要需要查看Class版本？"><span class="toc-nav-text">1.为什么要需要查看Class版本？</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-排查步骤"><span class="toc-nav-text">2.排查步骤</span></a></li></ol>
     
   </div>
 </aside>
