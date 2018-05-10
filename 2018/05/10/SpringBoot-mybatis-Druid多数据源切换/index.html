@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="ggoby&#39;s blog">
+  <meta name="keyword" content="hexo-theme, java">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      SpringBoot+mybatis+Druid多数据源切换 | ggboy
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>ggboy</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>SpringBoot+mybatis+Druid多数据源切换</h2>
+  <p class="post-date">2018-05-10</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="1-配置application-properties"><a href="#1-配置application-properties" class="headerlink" title="1. 配置application.properties"></a>1. 配置application.properties</h1><pre class=" language-java"><code class="language-java">#primary db
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>url<span class="token operator">=</span>jdbc<span class="token operator">:</span>mysql<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token operator">:</span><span class="token number">3306</span><span class="token operator">/</span>master<span class="token operator">?</span>characterEncoding<span class="token operator">=</span>utf<span class="token operator">-</span><span class="token number">8</span><span class="token operator">&amp;</span>allowMultiQueries<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>username<span class="token operator">=</span>root
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>password<span class="token operator">=</span>root
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>type<span class="token operator">=</span>com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>druid<span class="token punctuation">.</span>pool<span class="token punctuation">.</span>DruidDataSource
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>driver<span class="token operator">-</span><span class="token keyword">class</span><span class="token operator">-</span>name<span class="token operator">=</span>com<span class="token punctuation">.</span>mysql<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>Driver
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>filters<span class="token operator">=</span>stat
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>maxActive<span class="token operator">=</span><span class="token number">20</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>initialSize<span class="token operator">=</span><span class="token number">1</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>maxWait<span class="token operator">=</span><span class="token number">60000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>minIdle<span class="token operator">=</span><span class="token number">1</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>timeBetweenEvictionRunsMillis<span class="token operator">=</span><span class="token number">60000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>minEvictableIdleTimeMillis<span class="token operator">=</span><span class="token number">300000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>validationQuery<span class="token operator">=</span>select <span class="token string">'x'</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>testWhileIdle<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>testOnBorrow<span class="token operator">=</span><span class="token boolean">false</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>testOnReturn<span class="token operator">=</span><span class="token boolean">false</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>poolPreparedStatements<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>primary<span class="token punctuation">.</span>maxOpenPreparedStatements<span class="token operator">=</span><span class="token number">20</span>
+
+#slave db1
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>url<span class="token operator">=</span>jdbc<span class="token operator">:</span>mysql<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span><span class="token operator">:</span><span class="token number">3306</span><span class="token operator">/</span>slave<span class="token operator">?</span>characterEncoding<span class="token operator">=</span>utf<span class="token operator">-</span><span class="token number">8</span><span class="token operator">&amp;</span>allowMultiQueries<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>username<span class="token operator">=</span>root
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>password<span class="token operator">=</span>root
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>type<span class="token operator">=</span>com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>druid<span class="token punctuation">.</span>pool<span class="token punctuation">.</span>DruidDataSource
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>driver<span class="token operator">-</span><span class="token keyword">class</span><span class="token operator">-</span>name<span class="token operator">=</span>com<span class="token punctuation">.</span>mysql<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>Driver
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>filters<span class="token operator">=</span>stat
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>maxActive<span class="token operator">=</span><span class="token number">20</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>initialSize<span class="token operator">=</span><span class="token number">1</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>maxWait<span class="token operator">=</span><span class="token number">60000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>minIdle<span class="token operator">=</span><span class="token number">1</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>timeBetweenEvictionRunsMillis<span class="token operator">=</span><span class="token number">60000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>minEvictableIdleTimeMillis<span class="token operator">=</span><span class="token number">300000</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>validationQuery<span class="token operator">=</span>select <span class="token string">'x'</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>testWhileIdle<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>testOnBorrow<span class="token operator">=</span><span class="token boolean">false</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>testOnReturn<span class="token operator">=</span><span class="token boolean">false</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>poolPreparedStatements<span class="token operator">=</span><span class="token boolean">true</span>
+spring<span class="token punctuation">.</span>datasource<span class="token punctuation">.</span>secondary<span class="token punctuation">.</span>maxOpenPreparedStatements<span class="token operator">=</span><span class="token number">20</span>
+</code></pre>
+<blockquote>
+<p>△这里注意的是一定要指定主数据源(主数据源用primary标识)</p>
+</blockquote>
+<h1 id="2-配置主数据源PrimaryDataSourceConfig"><a href="#2-配置主数据源PrimaryDataSourceConfig" class="headerlink" title="2. 配置主数据源PrimaryDataSourceConfig"></a>2. 配置主数据源PrimaryDataSourceConfig</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@MapperScan</span><span class="token punctuation">(</span>basePackages <span class="token operator">=</span><span class="token string">"xx.xxx.xx.mapper.primary"</span><span class="token punctuation">,</span>sqlSessionTemplateRef <span class="token operator">=</span> <span class="token string">"primarySqlSessionTemplate"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">PrimaryDataSourceConfig</span><span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"primaryDataSource"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@ConfigurationProperties</span><span class="token punctuation">(</span>prefix <span class="token operator">=</span> <span class="token string">"spring.datasource.primary"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> DataSource <span class="token function">primaryDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DruidDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"primaryTransactionManager"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> PlatformTransactionManager <span class="token function">primaryTransactionManager</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"primaryDataSource"</span><span class="token punctuation">)</span> DataSource dataSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DataSourceTransactionManager</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"primarySqlSessionFactory"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> SqlSessionFactory <span class="token function">primarySqlSessionFactory</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"primaryDataSource"</span><span class="token punctuation">)</span> DataSource dataSource<span class="token punctuation">)</span>
+     <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        SqlSessionFactoryBean bean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SqlSessionFactoryBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bean<span class="token punctuation">.</span><span class="token function">setDataSource</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bean<span class="token punctuation">.</span><span class="token function">setTypeAliasesPackage</span><span class="token punctuation">(</span><span class="token string">"xx.xx.xx.model"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//分页插件</span>
+        PageHelper pageHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PageHelper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"reasonable"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"supportMethodsArguments"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"returnPageInfo"</span><span class="token punctuation">,</span> <span class="token string">"check"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"params"</span><span class="token punctuation">,</span> <span class="token string">"count=countSql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pageHelper<span class="token punctuation">.</span><span class="token function">setProperties</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//添加插件</span>
+        bean<span class="token punctuation">.</span><span class="token function">setPlugins</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Interceptor</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>pageHelper<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//添加XML目录</span>
+        ResourcePatternResolver resolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PathMatchingResourcePatternResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            bean<span class="token punctuation">.</span><span class="token function">setMapperLocations</span><span class="token punctuation">(</span>resolver<span class="token punctuation">.</span><span class="token function">getResources</span><span class="token punctuation">(</span><span class="token string">"classpath:mapper/*.xml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> bean<span class="token punctuation">.</span><span class="token function">getObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"primarySqlSessionTemplate"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> SqlSessionTemplate <span class="token function">primarySqlSessionTemplate</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"primarySqlSessionFactory"</span><span class="token punctuation">)</span>
+        SqlSessionFactory sqlSessionFactory<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SqlSessionTemplate</span><span class="token punctuation">(</span>sqlSessionFactory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token annotation punctuation">@Primary</span>
+    <span class="token keyword">public</span> MapperScannerConfigurer <span class="token function">mapperScannerConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        MapperScannerConfigurer mapperScannerConfigurer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MapperScannerConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setSqlSessionFactoryBeanName</span><span class="token punctuation">(</span><span class="token string">"primarySqlSessionFactory"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setBasePackage</span><span class="token punctuation">(</span><span class="token string">"xx.xx.xx.mapper.primary"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"mappers"</span><span class="token punctuation">,</span> <span class="token string">"xx.xx.xx.util.MyMapper"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"notEmpty"</span><span class="token punctuation">,</span> <span class="token string">"false"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"IDENTITY"</span><span class="token punctuation">,</span> <span class="token string">"MYSQL"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setProperties</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> mapperScannerConfigurer<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>△多个数据源要标识哪一个为主数据源所以这里PrimaryDataSourceConfig设置为主数据源需要用@primary来标识是主数据源(默认使用主数据源)</p>
+</blockquote>
+<h1 id="3-配置次数据源SlaveOneDataSourceConfig"><a href="#3-配置次数据源SlaveOneDataSourceConfig" class="headerlink" title="3.配置次数据源SlaveOneDataSourceConfig"></a>3.配置次数据源SlaveOneDataSourceConfig</h1><pre class=" language-java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@MapperScan</span><span class="token punctuation">(</span>basePackages <span class="token operator">=</span><span class="token string">"xx.xx.xx.mapper.slave1"</span><span class="token punctuation">,</span>sqlSessionTemplateRef <span class="token operator">=</span> <span class="token string">"slaveOneSqlSessionTemplate"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SlaveOneDataSourceConfig</span><span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"slaveOneDataSource"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@ConfigurationProperties</span><span class="token punctuation">(</span>prefix <span class="token operator">=</span> <span class="token string">"spring.datasource.secondary"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> DataSource <span class="token function">slaveOneDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DruidDataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"slaveOneTransactionManager"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> PlatformTransactionManager <span class="token function">slaveOneTransactionManager</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"slaveOneDataSource"</span><span class="token punctuation">)</span> DataSource dataSource<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DataSourceTransactionManager</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"slaveOneSqlSessionFactory"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> SqlSessionFactory <span class="token function">slaveOneSqlSessionFactory</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"slaveOneDataSource"</span><span class="token punctuation">)</span> DataSource dataSource<span class="token punctuation">)</span> 
+    <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        SqlSessionFactoryBean bean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SqlSessionFactoryBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bean<span class="token punctuation">.</span><span class="token function">setDataSource</span><span class="token punctuation">(</span>dataSource<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bean<span class="token punctuation">.</span><span class="token function">setTypeAliasesPackage</span><span class="token punctuation">(</span><span class="token string">"xx.xx.xx.model"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//分页插件</span>
+        PageHelper pageHelper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PageHelper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"reasonable"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"supportMethodsArguments"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"returnPageInfo"</span><span class="token punctuation">,</span> <span class="token string">"check"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"params"</span><span class="token punctuation">,</span> <span class="token string">"count=countSql"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        pageHelper<span class="token punctuation">.</span><span class="token function">setProperties</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//添加插件</span>
+        bean<span class="token punctuation">.</span><span class="token function">setPlugins</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Interceptor</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">{</span>pageHelper<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//添加XML目录</span>
+        ResourcePatternResolver resolver <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PathMatchingResourcePatternResolver</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            bean<span class="token punctuation">.</span><span class="token function">setMapperLocations</span><span class="token punctuation">(</span>resolver<span class="token punctuation">.</span><span class="token function">getResources</span><span class="token punctuation">(</span><span class="token string">"classpath:mapper/*.xml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> bean<span class="token punctuation">.</span><span class="token function">getObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"slaveOneSqlSessionTemplate"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> SqlSessionTemplate <span class="token function">slaveOneSqlSessionTemplate</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Qualifier</span><span class="token punctuation">(</span><span class="token string">"slaveOneSqlSessionFactory"</span><span class="token punctuation">)</span>
+    SqlSessionFactory sqlSessionFactory<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">SqlSessionTemplate</span><span class="token punctuation">(</span>sqlSessionFactory<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> MapperScannerConfigurer <span class="token function">mapperScannerConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        MapperScannerConfigurer mapperScannerConfigurer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MapperScannerConfigurer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setSqlSessionFactoryBeanName</span><span class="token punctuation">(</span><span class="token string">"slaveOneSqlSessionFactory"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setBasePackage</span><span class="token punctuation">(</span><span class="token string">"cn.ctx.admin.mapper.slave1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Properties properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"mappers"</span><span class="token punctuation">,</span> <span class="token string">"xx.xx.xx.util.MyMapper"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"notEmpty"</span><span class="token punctuation">,</span> <span class="token string">"false"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        properties<span class="token punctuation">.</span><span class="token function">setProperty</span><span class="token punctuation">(</span><span class="token string">"IDENTITY"</span><span class="token punctuation">,</span> <span class="token string">"MYSQL"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mapperScannerConfigurer<span class="token punctuation">.</span><span class="token function">setProperties</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> mapperScannerConfigurer<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>@MapperScan(basePackages =”cn.ctx.admin.mapper”,sqlSessionTemplateRef = “sqlSessionTemplate”)<br>basePackages 对应的dao mybatis会根据不同的dao切换数据源</p>
+</blockquote>
+<h1 id="4-多数据源使用事物"><a href="#4-多数据源使用事物" class="headerlink" title="4. 多数据源使用事物"></a>4. 多数据源使用事物</h1><ul>
+<li>程序入口需要加入 <code>@EnableTransactionManagement</code> 注解开启注解,等同于xml配置方式的 <code>&lt;tx:annotation-driven /&gt;</code><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//△多数据源 value 指定需要回滚的数据源一定要写</span>
+<span class="token annotation punctuation">@Transactional</span><span class="token punctuation">(</span>value<span class="token operator">=</span><span class="token string">"slaveOneTransactionManager"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> Object<span class="token operator">></span> <span class="token function">addSlaveData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span>Object<span class="token operator">></span> map<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span>String<span class="token punctuation">,</span>Object<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token keyword">int</span> i<span class="token operator">=</span>userInfoMapper<span class="token punctuation">.</span><span class="token function">addSlaveData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"result"</span><span class="token punctuation">,</span><span class="token string">"写入成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+          map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"result"</span><span class="token punctuation">,</span><span class="token string">"写入失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"result"</span><span class="token punctuation">,</span><span class="token string">"写入失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">//异常手动回滚,好处上层就无需去处理异常</span>
+      TransactionAspectSupport<span class="token punctuation">.</span><span class="token function">currentTransactionStatus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setRollbackOnly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> map<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+△注意,发现事务不回滚<br>原因：</li>
+<li>默认spring事务只在发生未被捕获的 RuntimeException 时才回滚。  </li>
+<li>spring aop  异常捕获原理：被拦截的方法需显式抛出异常，并不能经任何处理，这样aop代理才能捕获到方法的异常，才能进行回滚，默认情况下aop只捕获 RuntimeException 的异常，但可以通过配置来捕获特定的异常并回滚<br>换句话说在service的方法中不使用try catch 或者在catch中最后加上throw new runtimeexcetpion()，这样程序异常时才能被aop捕获进而回滚</li>
+<li>解决方案： <ul>
+<li>方案1.例如service层处理事务，那么service中的方法中不做异常捕获，或者在catch语句中最后增加throw new RuntimeException()语句，以便让aop捕获异常再去回滚，并且在service上层（webservice客户端，view层action）要继续捕获这个异常并处理</li>
+<li>方案2.在service层方法的catch语句中增加：TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();语句，手动回滚，这样上层就无需去处理异常</li>
+</ul>
+</li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#SpringBoot" >
+    <span class="tag-code">SpringBoot</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/05/10/更改SpringBoot运行方式/">
+        <span class="nav-arrow">← </span>
+        
+          更改SpringBoot TomCat运行方式
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-配置application-properties"><span class="toc-nav-text">1. 配置application.properties</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-配置主数据源PrimaryDataSourceConfig"><span class="toc-nav-text">2. 配置主数据源PrimaryDataSourceConfig</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#3-配置次数据源SlaveOneDataSourceConfig"><span class="toc-nav-text">3.配置次数据源SlaveOneDataSourceConfig</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#4-多数据源使用事物"><span class="toc-nav-text">4. 多数据源使用事物</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/05/10/SpringBoot-mybatis-Druid多数据源切换/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "wolfyg";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "SpringBoot+mybatis+Druid多数据源切换",
+        owner: "wolfyg",
+        repo: "wolfyg.github.io",
+        oauth: {
+          client_id: "c50298c09edd77c1c314",
+          client_secret: "629da662f6b5a2f6350a3b72255319417a177888"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
