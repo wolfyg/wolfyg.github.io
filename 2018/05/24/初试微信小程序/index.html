@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="ggoby&#39;s blog">
+  <meta name="keyword" content="hexo-theme, java">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      初试微信小程序 | ggboy
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>ggboy</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>初试微信小程序</h2>
+  <p class="post-date">2018-05-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="1-第一步"><a href="#1-第一步" class="headerlink" title="1.第一步"></a>1.第一步</h2><ul>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/quickstart/basic/getting-started.html" target="_blank" rel="noopener">首先看一波官方文档</a></li>
+<li>申请一个公众号（个人可以申请订阅号，我用的是订阅号）</li>
+<li>下载安装微信<a href="https://servicewechat.com/wxa-dev-logic/download_redirect?type=x64&amp;from=mpwiki" target="_blank" rel="noopener">开发者工具</a>（我用是windows64）,工具使用<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html" target="_blank" rel="noopener">文档</a></li>
+</ul>
+<h2 id="2-新建一个小程序项目"><a href="#2-新建一个小程序项目" class="headerlink" title="2.新建一个小程序项目"></a>2.新建一个小程序项目</h2><ul>
+<li><p>打开 “微信web开发者工具”,项目-&gt;新建项目如图：<br>   <img src="/static/img/newpro.png" alt="图片alt"></p>
+<ul>
+<li>创建一个项目目录    </li>
+<li>填写你的appId</li>
+<li>给你的项目起个名字</li>
+</ul>
+</li>
+<li><p>文件目录如下图：<br>  <img src="/static/img/filetree.png" alt="文件目录"></p>
+</li>
+<li><a href="https://developers.weixin.qq.com/miniprogram/dev/quickstart/basic/file.html" target="_blank" rel="noopener">点击查看代码构成以及开发文档</a></li>
+</ul>
+<h2 id="3-实现一个天气预报小程序"><a href="#3-实现一个天气预报小程序" class="headerlink" title="3.实现一个天气预报小程序"></a>3.实现一个天气预报小程序</h2><ul>
+<li><p>app.json配置文件新建一个 <code>pages/weather/weather</code> 的路径（会根据路径名自动生成 xx.wxml，xx.js，xx.wxss，xx.json文件）:<br>  <img src="/static/img/weather.png" alt="11"></p>
+<p>  app.json相关配置有俩个路径log,weather</p>
+<pre class=" language-config"><code class="language-config"> {
+   "pages":[
+     "pages/weather/weather",
+     "pages/logs/logs"
+   ],
+   "window":{
+     "backgroundTextStyle":"light",
+     "navigationBarBackgroundColor": "#fff",
+     "navigationBarTitleText": "天气查询",
+     "navigationBarTextStyle":"black",
+     "enablePullDownRefresh": true,
+     "navigationBarBackgroundColor":"#FF7F00"
+   },
+   "networkTimeout": {
+     "request": 10000,
+     "downloadFile": 10000
+   }
+ }
+</code></pre>
+</li>
+</ul>
+<ul>
+<li>界面 weather.wxml</li>
+</ul>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-wrap<span class="token punctuation">'</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">='</span><span class="token attr-value"><span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span><span class="token property">flex-direction</span><span class="token punctuation">:</span> row<span class="token punctuation">;</span></span><span class="token punctuation">'</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{weather.weather_data}}<span class="token punctuation">'</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for-index</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>idx<span class="token punctuation">'</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>jumpBaidu<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{idx <span class="token punctuation">=</span><span class="token punctuation">=</span> 0}}<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>{{weather.currentCity}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>date<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>{{date}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+      白天:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{item.dayPictureUrl}}<span class="token punctuation">'</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>img<span class="token punctuation">'</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+      夜晚:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{item.nightPictureUrl}}<span class="token punctuation">'</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>img<span class="token punctuation">'</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>\image</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>pm2.5:{{weather.pm25===''?'自己看':weather.pm25}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>实时温度:{{wd}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>风级:{{item.wind}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>洗车:{{xczs === ''?'看天':xczs}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>预计温度:{{item.temperature}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>天气情况:{{item.weather}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>else</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>{{weather.currentCity}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>{{item.date}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+      白天:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{item.dayPictureUrl}}<span class="token punctuation">'</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>img<span class="token punctuation">'</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>
+      夜晚:<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>{{item.nightPictureUrl}}<span class="token punctuation">'</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>img<span class="token punctuation">'</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>预计温度:{{item.temperature}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>flex-view-item font-size<span class="token punctuation">'</span></span><span class="token punctuation">></span></span>天气情况:{{item.weather}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">></span></span>
+</code></pre>
+<ul>
+<li>界面样式 weather.wxss</li>
+</ul>
+<pre class=" language-css"><code class="language-css"><span class="token selector"><span class="token class">.font-size</span></span><span class="token punctuation">{</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> <span class="token number">14</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.flex-wrap</span></span><span class="token punctuation">{</span>
+  <span class="token property">flex-direction</span><span class="token punctuation">:</span> row<span class="token punctuation">;</span>
+  <span class="token property">flex-wrap</span><span class="token punctuation">:</span>wrap<span class="token punctuation">;</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">20</span>rpx <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token property">border-bottom</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#eee</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.flex-view-item</span></span><span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">50%</span><span class="token punctuation">;</span>
+  <span class="token property">margin-top</span><span class="token punctuation">:</span> <span class="token number">10</span>rpx<span class="token punctuation">;</span>
+  <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.img</span></span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>rpx<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>rpx<span class="token punctuation">;</span>
+    <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">10</span>rpx auto<span class="token punctuation">;</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<ul>
+<li>weather.js</li>
+</ul>
+<pre class=" language-java"><code class="language-java"><span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 页面的初始数据
+   */</span>
+  data<span class="token operator">:</span> <span class="token punctuation">{</span>
+    ak<span class="token operator">:</span><span class="token string">'百度key'</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//用来调用百度天气API</span>
+    mapKey<span class="token operator">:</span> <span class="token string">'高德key'</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//用户定位用户当前位置调用的微信自带的腾讯地图</span>
+    location<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    params<span class="token operator">:</span> <span class="token punctuation">{</span>
+      city<span class="token operator">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  onLoad<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    var self <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//定位</span>
+    wx<span class="token punctuation">.</span><span class="token function">getLocation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      type<span class="token operator">:</span> <span class="token string">'wgs84'</span><span class="token punctuation">,</span>
+      success<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        self<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          location<span class="token operator">:</span> res<span class="token punctuation">.</span>latitude <span class="token operator">+</span> <span class="token string">','</span> <span class="token operator">+</span> res<span class="token punctuation">.</span>longitude<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span><span class="token function">getCurAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">/**
+   * 地址逆编码
+   */</span>
+  getCurAddress<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    var self <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mapKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>location<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      url<span class="token operator">:</span> <span class="token string">'https://apis.map.qq.com/ws/geocoder/v1/'</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span> <span class="token punctuation">{</span>
+        key<span class="token operator">:</span> self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mapKey<span class="token punctuation">,</span>
+        location<span class="token operator">:</span> self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>location<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      method<span class="token operator">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+      success<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>d<span class="token punctuation">.</span>data<span class="token punctuation">.</span>result<span class="token punctuation">.</span>address_component<span class="token punctuation">.</span>city<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        self<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          params<span class="token operator">:</span> <span class="token punctuation">{</span>
+            city<span class="token operator">:</span> d<span class="token punctuation">.</span>data<span class="token punctuation">.</span>result<span class="token punctuation">.</span>address_component<span class="token punctuation">.</span>city
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token comment" spellcheck="true">//数据获取完成加载天气数据</span>
+      complete<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        self<span class="token punctuation">.</span><span class="token function">getWeather</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">/**
+   * 获取天气数据
+   */</span>
+  getWeather<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    wx<span class="token punctuation">.</span><span class="token function">showLoading</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      title<span class="token operator">:</span> <span class="token string">'正在加载'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    var self <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      url<span class="token operator">:</span><span class="token string">'https://api.map.baidu.com/telematics/v3/weather'</span><span class="token punctuation">,</span>
+      data<span class="token operator">:</span><span class="token punctuation">{</span>
+        output<span class="token operator">:</span><span class="token string">'json'</span><span class="token punctuation">,</span>
+        location<span class="token operator">:</span>self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>params<span class="token punctuation">.</span>city<span class="token punctuation">,</span>
+        ak<span class="token operator">:</span>self<span class="token punctuation">.</span>data<span class="token punctuation">.</span>ak<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      method<span class="token operator">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+      success<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        var xczs <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results<span class="token punctuation">[</span><span class="token string">"0"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>index<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>des<span class="token punctuation">,</span>
+            date_wd <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results<span class="token punctuation">[</span><span class="token string">"0"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>weather_data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>date<span class="token punctuation">,</span>
+            date <span class="token operator">=</span> date_wd<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> date_wd<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            wd <span class="token operator">=</span> date_wd<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>date_wd<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        self<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">//weather: res.data.data</span>
+          weather<span class="token operator">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>results<span class="token punctuation">[</span><span class="token string">"0"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+          xczs<span class="token operator">:</span> xczs<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> xczs<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'，'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+          date<span class="token operator">:</span> date<span class="token punctuation">,</span>
+          wd<span class="token operator">:</span>wd<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        wx<span class="token punctuation">.</span><span class="token function">hideLoading</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">/**
+   * 生命周期函数--监听页面初次渲染完成
+   */</span>
+  onReady<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 生命周期函数--监听页面显示
+   */</span>
+  onShow<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 生命周期函数--监听页面隐藏
+   */</span>
+  onHide<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 生命周期函数--监听页面卸载
+   */</span>
+  onUnload<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */</span>
+  onPullDownRefresh<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 页面上拉触底事件的处理函数
+   */</span>
+  onReachBottom<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 用户点击右上角分享
+   */</span>
+  onShareAppMessage<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">//返回上一页</span>
+  returnStoryView<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    wx<span class="token punctuation">.</span><span class="token function">navigateBack</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      delta<span class="token operator">:</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">/**
+   * 下拉刷新
+   */</span>
+  onPullDownRefresh<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getWeather</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    wx<span class="token punctuation">.</span><span class="token function">stopPullDownRefresh</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  jumpBaidu<span class="token operator">:</span> <span class="token function">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>currentCity<span class="token punctuation">)</span>
+    wx<span class="token punctuation">.</span><span class="token function">showToast</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      title<span class="token operator">:</span> <span class="token string">'你好'</span><span class="token punctuation">,</span>
+      icon<span class="token operator">:</span><span class="token string">'none'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<ul>
+<li>weather.json</li>
+</ul>
+<p>这里只配置了 下拉 loading 的样式，仅支持 <code>dark/light</code></p>
+<pre class=" language-java"><code class="language-java"><span class="token punctuation">{</span>
+  <span class="token string">"backgroundTextStyle"</span><span class="token operator">:</span><span class="token string">"dark"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="4-预览"><a href="#4-预览" class="headerlink" title="4.预览"></a>4.预览</h2><p><img src="/static/img/weatherpro.png" alt=""></p>
+<h2 id="5-注意事项"><a href="#5-注意事项" class="headerlink" title="5.注意事项"></a>5.注意事项</h2><ul>
+<li>小程序发布所有的接口必须是Https的</li>
+<li>所有接口域名必须进行配置<ul>
+<li>进入小程序公众平台-&gt;设置-&gt;开发设置，如图（我这里用到的俩个外部接口）：<br><img src="/static/img/urlconf.png" alt="域名配置"></li>
+</ul>
+</li>
+<li>本地远程预览调试可以不校验Https<ul>
+<li>开发者工具-&gt;详情，勾选不校验合法域名。如图：<br><img src="/static/img/toolsconf.png" alt="开发工具配置"></li>
+</ul>
+</li>
+</ul>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#weChart" >
+    <span class="tag-code">weChart</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/05/21/记一次缓存穿透问题/">
+        <span class="nav-arrow">← </span>
+        
+          记一次缓存穿透问题
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-第一步"><span class="toc-nav-text">1.第一步</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-新建一个小程序项目"><span class="toc-nav-text">2.新建一个小程序项目</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-实现一个天气预报小程序"><span class="toc-nav-text">3.实现一个天气预报小程序</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-预览"><span class="toc-nav-text">4.预览</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-注意事项"><span class="toc-nav-text">5.注意事项</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/05/24/初试微信小程序/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "wolfyg";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "初试微信小程序",
+        owner: "wolfyg",
+        repo: "wolfyg.github.io",
+        oauth: {
+          client_id: "c50298c09edd77c1c314",
+          client_secret: "629da662f6b5a2f6350a3b72255319417a177888"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
