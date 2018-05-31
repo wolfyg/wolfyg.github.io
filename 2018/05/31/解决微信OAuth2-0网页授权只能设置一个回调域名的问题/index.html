@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="ggoby&#39;s blog">
+  <meta name="keyword" content="hexo-theme, java">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      解决微信OAuth2.0网页授权只能设置一个回调域名的问题 | ggboy
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>ggboy</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>解决微信OAuth2.0网页授权只能设置一个回调域名的问题</h2>
+  <p class="post-date">2018-05-31</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="1-中转服务"><a href="#1-中转服务" class="headerlink" title="1.中转服务"></a>1.中转服务</h2><ul>
+<li><p>在微信服务器下建一个目录把<code>目录4</code>html代码放到目录中如图（见文件夹没啥讲究最后代理能找到就行）:<br><img src="/static/img/wechart.jpg" alt="微信服务器下html路径"></p>
+</li>
+<li><p>配置本地Nginx把静态文件代理出来，然后重启（window下直接重启）</p>
+<pre class=" language-bash"><code class="language-bash">server <span class="token punctuation">{</span>
+
+      listen       80<span class="token punctuation">;</span>
+
+      server_name  192.168.11.193<span class="token punctuation">;</span>
+
+      location /wxauth/ <span class="token punctuation">{</span> 
+
+              root  E:\\projects\\<span class="token punctuation">;</span>
+              index  index.html index.htm<span class="token punctuation">;</span> 
+      <span class="token punctuation">}</span>              
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><p>我们服务器还有个前置机是Linux系统所有域名被这台服务器代理所有还要配置一下前置机（没有前置机忽略此步，把上面的192.168.11.193换成你的微信授权域名即可）</p>
+<pre class=" language-bash"><code class="language-bash">server<span class="token punctuation">{</span>
+      listen 80<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">#微信授权域名</span>
+      server_name weixin.xxx.com<span class="token punctuation">;</span>
+
+      location /wxauth/<span class="token punctuation">{</span>
+              proxy_pass http://192.168.11.193/wxauth/<span class="token punctuation">;</span>
+              proxy_set_header X-Real-Ip <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li>配置完前置机Nginx<ul>
+<li>进入<code>/sbin</code>目录</li>
+<li><code>nginx -t</code> （自检没问题，进行下一步）</li>
+<li><code>nginx -s reload</code> （热重启）</li>
+</ul>
+</li>
+</ul>
+<p>到此我们中转服务部署好了我们现在来测试一下（我自己有微信服务就直接拿来测试了）</p>
+<h2 id="2-使用方式"><a href="#2-使用方式" class="headerlink" title="2.使用方式"></a>2.使用方式</h2><ol>
+<li><p>前往微信公众平台-&gt;接口权限-&gt;网页授权获取用户基本信息-&gt;修改，填写授权回调页面域名，例如<code>weixin.xxx.com</code></p>
+</li>
+<li><p>在<code>weixin.xxx.com</code>域名下部署<code>index.html</code>，不一定是根目录，例如：<code>http://weixin.xxx.com/wxauth</code></p>
+</li>
+<li><p>假设你的<code>http://d3jwbg.natappfree.cc/bbwx-front/wx/fwdt</code>这个页面需要获取微信授权，那么你应该使用以下地址来获取授权：<br><code>http://weixin.xxx.com/wxauth?appid=你自己的appid&amp;scope=snsapi_base&amp;state=wx%2ffwdt&amp;redirect_uri=http%3A%2F%2Fd3jwbg.natappfree.cc%2Fbbwx-front%2Fopenid</code></p>
+</li>
+<li><p>这样最终就会跳转到这样一个地址：<br><code>http://d3jwbg.natappfree.cc/openid?code=XXXXXXXXXXXXXXXXX&amp;state=wx/fwdt</code>，从而你就拿到了授权<code>code</code>以及自定义的<code>state</code>参数了(这里的state我用来做session过期回跳上次地址)</p>
+</li>
+</ol>
+<h2 id="3-示例"><a href="#3-示例" class="headerlink" title="3.示例"></a>3.示例</h2><p><img src="/static/img/wecahrt-1.jpg" alt="跳转演示页面"></p>
+<h2 id="4-代码"><a href="#4-代码" class="headerlink" title="4.代码"></a>4.代码</h2><pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>微信登录<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+
+    这里是一个loading ^_^
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">></span></span>
+    var GWC = {
+        version: '1.2.0',
+        urlParams: {},
+        appendParams: function(url, params) {
+            if (params) {
+                var baseWithSearch = url.split('#')[0];
+                var hash = url.split('#')[1];
+                for (var key in params) {
+                    var attrValue = params[key];
+                    if (attrValue !== undefined) {
+                        var newParam = key + "=" + attrValue;
+                        if (baseWithSearch.indexOf('?') > 0) {
+                            var oldParamReg = new RegExp('^' + key + '=[-%.!~*\'\(\)\\w]*', 'g');
+                            if (oldParamReg.test(baseWithSearch)) {
+                                baseWithSearch = baseWithSearch.replace(oldParamReg, newParam);
+                            } else {
+                                baseWithSearch += "&amp;" + newParam;
+                            }
+                        } else {
+                            baseWithSearch += "?" + newParam;
+                        }
+                    }
+                }
+
+                if (hash) {
+                    url = baseWithSearch + '#' + hash;
+                } else {
+                    url = baseWithSearch;
+                }
+            }
+            return url;
+        },
+        getUrlParams: function() {
+            var pairs = location.search.substring(1).split('&amp;');
+            for (var i = 0; i &lt; pairs.length; i++) {
+                var pos = pairs[i].indexOf('=');
+                if (pos === -1) {
+                    continue;
+                }
+                GWC.urlParams[pairs[i].substring(0, pos)] = decodeURIComponent(pairs[i].substring(pos + 1));
+            }
+        },
+        doRedirect: function() {
+            var code = GWC.urlParams['code'];
+            var appId = GWC.urlParams['appid'];
+            var scope = GWC.urlParams['scope'] || 'snsapi_base';
+            var state = GWC.urlParams['state'];
+            var isMp = GWC.urlParams['isMp']; //isMp为true时使用开放平台作授权登录，false为网页扫码登录
+            var redirect_uri = GWC.urlParams['redirect_uri']; //回调地址
+            var baseUrl;
+            var redirectUri;
+
+            if (!code) {
+                baseUrl = "https://open.weixin.qq.com/connect/oauth2/authorize#wechat_redirect";
+                if (scope == 'snsapi_login' &amp;&amp; !isMp) {
+                    baseUrl = "https://open.weixin.qq.com/connect/qrconnect";
+                }
+                //alert(location.href)
+                //第一步，没有拿到code，跳转至微信授权页面获取code
+                redirectUri = GWC.appendParams(baseUrl, {
+                    'appid': appId,
+                    'redirect_uri': encodeURIComponent(redirect_uri),
+                    'response_type': 'code',
+                    'scope': scope,
+                    'state': state,
+                });
+            } else {
+                alert(2)
+                //第二步，从微信授权页面跳转回来，已经获取到了code，再次跳转到实际所需页面
+                redirectUri = GWC.appendParams(redirect_uri, {
+                    'code': code,
+                    'state': state
+                });
+            }
+
+            location.href = redirectUri;
+        }
+    };
+
+    GWC.getUrlParams();
+    GWC.doRedirect();
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
+</code></pre>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#weChart" >
+    <span class="tag-code">weChart</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/05/24/初试微信小程序/">
+        <span class="nav-arrow">← </span>
+        
+          初试微信小程序
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-中转服务"><span class="toc-nav-text">1.中转服务</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-使用方式"><span class="toc-nav-text">2.使用方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-示例"><span class="toc-nav-text">3.示例</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-代码"><span class="toc-nav-text">4.代码</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/05/31/解决微信OAuth2-0网页授权只能设置一个回调域名的问题/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "wolfyg";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "解决微信OAuth2.0网页授权只能设置一个回调域名的问题",
+        owner: "wolfyg",
+        repo: "wolfyg.github.io",
+        oauth: {
+          client_id: "c50298c09edd77c1c314",
+          client_secret: "629da662f6b5a2f6350a3b72255319417a177888"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>
