@@ -147,7 +147,30 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="1-题目"><a href="#1-题目" class="headerlink" title="1.题目"></a>1.题目</h2><pre><code>+----+-----+
+    <section class="markdown-content"><h2 id="1-题目"><a href="#1-题目" class="headerlink" title="1.题目"></a>1.题目</h2><p>表结构</p>
+<pre class=" language-MySQL"><code class="language-MySQL">-- ----------------------------
+-- Table structure for logs
+-- ----------------------------
+DROP TABLE IF EXISTS `logs`;
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `num` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of logs
+-- ----------------------------
+INSERT INTO `logs` VALUES ('1', '1');
+INSERT INTO `logs` VALUES ('2', '1');
+INSERT INTO `logs` VALUES ('3', '1');
+INSERT INTO `logs` VALUES ('4', '4');
+INSERT INTO `logs` VALUES ('5', '4');
+INSERT INTO `logs` VALUES ('6', '7');
+
+</code></pre>
+<p>编写一个 SQL 查询，查找所有至少连续出现三次的数字。</p>
+<pre><code>+----+-----+
 | Id | Num |
 +----+-----+
 | 1  |  1  |
