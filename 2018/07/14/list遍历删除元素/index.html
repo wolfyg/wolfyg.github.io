@@ -163,7 +163,7 @@
 <h2 id="一-用一个List-记录要删除的数据-最后removeAll-List"><a href="#一-用一个List-记录要删除的数据-最后removeAll-List" class="headerlink" title="一. 用一个List 记录要删除的数据,最后removeAll(List);"></a>一. 用一个List 记录要删除的数据,最后removeAll(List);</h2><pre class=" language-java"><code class="language-java">List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> removeList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  
 <span class="token keyword">for</span><span class="token punctuation">(</span>Integer i <span class="token operator">:</span> intList<span class="token punctuation">)</span>  
 <span class="token punctuation">{</span>  
-    <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">13</span><span class="token punctuation">)</span>  
+    <span class="token keyword">if</span><span class="token punctuation">(</span>i <span class="token operator">==</span> obj<span class="token punctuation">)</span>  
     <span class="token punctuation">{</span>  
         removeList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>  
     <span class="token punctuation">}</span>  
@@ -176,7 +176,7 @@
 </code></pre>
 <h2 id="二-用for循环遍历-原始书写方式"><a href="#二-用for循环遍历-原始书写方式" class="headerlink" title="二.用for循环遍历,原始书写方式"></a>二.用for循环遍历,原始书写方式</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> intList<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>  
 <span class="token punctuation">{</span>  
-    <span class="token keyword">if</span><span class="token punctuation">(</span>intList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">13</span><span class="token punctuation">)</span>  
+    <span class="token keyword">if</span><span class="token punctuation">(</span>intList<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> obj<span class="token punctuation">)</span>  
     <span class="token punctuation">{</span>  
         intList<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>  
 
@@ -188,7 +188,7 @@
 <h2 id="三-用迭代器自带的remove方法-这也是官方推荐的方法"><a href="#三-用迭代器自带的remove方法-这也是官方推荐的方法" class="headerlink" title="三.用迭代器自带的remove方法,这也是官方推荐的方法"></a>三.用迭代器自带的remove方法,这也是官方推荐的方法</h2><pre class=" language-java"><code class="language-java">Iterator <span class="token operator">&lt;</span>Integer<span class="token operator">></span> it <span class="token operator">=</span> intList<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 <span class="token keyword">while</span><span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
 <span class="token punctuation">{</span>  
-    <span class="token keyword">if</span><span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">13</span><span class="token punctuation">)</span>  
+    <span class="token keyword">if</span><span class="token punctuation">(</span>it<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> obj<span class="token punctuation">)</span>  
     <span class="token punctuation">{</span>  
         it<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
     <span class="token punctuation">}</span>  
