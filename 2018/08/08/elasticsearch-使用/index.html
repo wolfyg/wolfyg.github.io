@@ -507,6 +507,706 @@
 <span class="token operator">&lt;</span>/web-app<span class="token operator">></span>
 
 </code></pre>
+<h2 id="2-jar管理"><a href="#2-jar管理" class="headerlink" title="2.jar管理"></a>2.jar管理</h2><ul>
+<li>父 pom.xml 依赖</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span>?xml version<span class="token operator">=</span><span class="token string">"1.0"</span> encoding<span class="token operator">=</span><span class="token string">"UTF-8"</span>?<span class="token operator">></span>
+<span class="token operator">&lt;</span>project xmlns<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0"</span>
+         xmlns:xsi<span class="token operator">=</span><span class="token string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         xsi:schemaLocation<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>modelVersion<span class="token operator">></span>4.0.0<span class="token operator">&lt;</span>/modelVersion<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.iflytek.sc.pl.project<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es-project<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+    <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+    <span class="token operator">&lt;</span>modules<span class="token operator">></span>
+        <span class="token operator">&lt;</span>module<span class="token operator">></span>pl-es<span class="token operator">&lt;</span>/module<span class="token operator">></span>
+        <span class="token operator">&lt;</span>module<span class="token operator">></span>pl-es-web<span class="token operator">&lt;</span>/module<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/modules<span class="token operator">></span>
+    <span class="token operator">&lt;</span>packaging<span class="token operator">></span>pom<span class="token operator">&lt;</span>/packaging<span class="token operator">></span>
+    <span class="token operator">&lt;</span>properties<span class="token operator">></span>
+        <span class="token operator">&lt;</span>project.build.sourceEncoding<span class="token operator">></span>UTF-8<span class="token operator">&lt;</span>/project.build.sourceEncoding<span class="token operator">></span>
+        <span class="token operator">&lt;</span>junit.version<span class="token operator">></span>4.12<span class="token operator">&lt;</span>/junit.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>servlet-api.version<span class="token operator">></span>3.0.1<span class="token operator">&lt;</span>/servlet-api.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>spring.version<span class="token operator">></span>4.3.6.RELEASE<span class="token operator">&lt;</span>/spring.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dubbo.version<span class="token operator">></span>2.5.3<span class="token operator">&lt;</span>/dubbo.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>hibernate.version<span class="token operator">></span>5.2.9.Final<span class="token operator">&lt;</span>/hibernate.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>jackson-annotations.version<span class="token operator">></span>2.8.4<span class="token operator">&lt;</span>/jackson-annotations.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>xw.version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/xw.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>maven.build.timestamp.format<span class="token operator">></span>yyyy/MM/dd HH:mm:ss<span class="token operator">&lt;</span>/maven.build.timestamp.format<span class="token operator">></span>
+        <span class="token operator">&lt;</span>quartz.version<span class="token operator">></span>2.2.0<span class="token operator">&lt;</span>/quartz.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>spring.security.version<span class="token operator">></span>5.0.1.RELEASE<span class="token operator">&lt;</span>/spring.security.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>mybatis.spring.version<span class="token operator">></span>3.4.6<span class="token operator">&lt;</span>/mybatis.spring.version<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- 编译时忽略测试 --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>maven.test.skip<span class="token operator">></span>true<span class="token operator">&lt;</span>/maven.test.skip<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/properties<span class="token operator">></span>
+    <span class="token operator">&lt;</span>dependencies<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Spring Framework --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-aop<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-beans<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-context<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-context-support<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-expression<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-jdbc<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-tx<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-web<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-webmvc<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-oxm<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-test<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- activemq --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.activemq<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>activemq-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.7.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.activemq<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>activemq-pool<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.12.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Validator --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.hibernate<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>hibernate-validator<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.3.1.Final<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Redis --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>redis.clients<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jedis<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.9.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework.data<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-data-redis<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.8.4.RELEASE<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Jsoup --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.jsoup<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jsoup<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.10.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Apache Commons --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.commons<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-lang3<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>3.4<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>commons-logging<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-logging<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.commons<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-pool2<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.4.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>commons-fileupload<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-fileupload<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.3.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Log4j --<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>log4j<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>log4j<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2.17<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.slf4j<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>slf4j-log4j12<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.7.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Log --<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>ch.qos.logback<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>logback-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2.3<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>ch.qos.logback<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>logback-classic<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2.3<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.slf4j<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>slf4j-api<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.7.21<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>cglib<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>cglib<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>3.2.4<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>commons-codec<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-codec<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.10<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.jsoup/jsoup --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.jsoup<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jsoup<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.11.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- jackson --<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.codehaus.jackson<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>com.springsource.org.codehaus.jackson.mapper<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span>1.0.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.fasterxml.jackson.core<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-annotations<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${jackson-annotations.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.fasterxml.jackson.core<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-databind<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${jackson-annotations.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.fasterxml.jackson.core<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${jackson-annotations.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.json<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>json<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>20140107<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Alibaba --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.alibaba<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>druid<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0.26<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.alibaba<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>fastjson<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2.20<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>net.sf.json-lib<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>json-lib<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span>2.4<span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>classifier<span class="token operator">></span>jdk17<span class="token operator">&lt;</span>/classifier<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.codehaus.jackson<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-core-asl<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.9.13<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.aspectj<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>aspectjweaver<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.8.10<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.aspectj<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>aspectjrt<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.8.10<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- httpclient --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.httpcomponents<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>httpclient<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.5.3<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.httpcomponents<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>httpcore<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.4.8<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>commons-io<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-io<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.6<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>commons-lang<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>commons-lang<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.6<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- servlet-api --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>javax.servlet<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>javax.servlet-api<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>3.1.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.httpcomponents<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>httpcore<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.4.8<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.httpcomponents<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>httpclient<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.5.3<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.fasterxml.jackson.core<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-databind<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.7.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.fasterxml.jackson.core<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jackson-annotations<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.7.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>asm<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>asm<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>20041228.180559<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>junit<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>junit<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>3.8.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>scope<span class="token operator">></span>test<span class="token operator">&lt;</span>/scope<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.slf4j<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>log4j-over-slf4j<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.7.25<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/com.mangofactory/swagger-springmvc --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.mangofactory<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>swagger-springmvc<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>io.springfox<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>springfox-swagger2<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.6.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>io.springfox<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>springfox-swagger-ui<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.6.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.google.guava<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>guava<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>18.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--序列化--<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>de.ruedigermoeller<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>fst<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.57<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework.security.oauth<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-security-oauth2<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>RELEASE<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+            <span class="token operator">&lt;</span>exclusions<span class="token operator">></span>
+                <span class="token operator">&lt;</span>exclusion<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/exclusion<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/exclusions<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.github.pagehelper<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pagehelper<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.1.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.github.jsqlparser<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>jsqlparser<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&amp;</span>lt<span class="token punctuation">;</span><span class="token operator">!</span><span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span>混淆<span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.noahx.proguard.example<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>project2<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>classifier<span class="token operator">></span>pg<span class="token operator">&lt;</span>/classifier<span class="token operator">></span> <span class="token operator">&amp;</span>lt<span class="token punctuation">;</span><span class="token operator">!</span><span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span>如果不想依赖混淆的包，请注释掉该行<span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.google<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>code-kaptcha<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span>2.3.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/com.google.code.kaptcha/kaptcha --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.github.penggle<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>kaptcha<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.3.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- Lombok --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.projectlombok<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>lombok<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.16.10<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--mybatis-plus--<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.mybatis<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>mybatis<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${mybatis.spring.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>  
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.mybatis<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>mybatis-spring<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>  
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.3.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>  
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.velocity<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>velocity<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.7<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.baomidou<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>mybatis-plus<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.2.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- oracle jdbc 依赖 --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.oracle<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>ojdbc14<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>10.2.0.4.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/com.google.code.gson/gson --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.google.code.gson<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>gson<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.2.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>/dependencies<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>profiles<span class="token operator">></span>
+        <span class="token operator">&lt;</span>profile<span class="token operator">></span>
+            <span class="token operator">&lt;</span>id<span class="token operator">></span>local<span class="token operator">&lt;</span>/id<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/profile<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/profiles<span class="token operator">></span>
+<span class="token operator">&lt;</span>/project<span class="token operator">></span>
+</code></pre>
+<ul>
+<li>数据层 pom.xml 依赖</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span>?xml version<span class="token operator">=</span><span class="token string">"1.0"</span> encoding<span class="token operator">=</span><span class="token string">"UTF-8"</span>?<span class="token operator">></span>
+<span class="token operator">&lt;</span>project xmlns<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0"</span>
+         xmlns:xsi<span class="token operator">=</span><span class="token string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         xsi:schemaLocation<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>parent<span class="token operator">></span>
+        <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es-project<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+        <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.iflytek.sc.pl.project<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+        <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/parent<span class="token operator">></span>
+    <span class="token operator">&lt;</span>modelVersion<span class="token operator">></span>4.0.0<span class="token operator">&lt;</span>/modelVersion<span class="token operator">></span>
+    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+    <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.iflytek.sc.pl.project.es<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+    <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+    <span class="token operator">&lt;</span>packaging<span class="token operator">></span>jar<span class="token operator">&lt;</span>/packaging<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>dependencies<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.elasticsearch<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>elasticsearch<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.6.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.elasticsearch.client<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>transport<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.6.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.alibaba<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>fastjson<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.2.20<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.springframework.data<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-data-elasticsearch<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>3.0.1.RELEASE<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>fr.pilato.spring<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>spring-elasticsearch<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.apache.logging.log4j<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>log4j-core<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.6.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>net.sf.json-lib<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>json-lib<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span>2.4<span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+
+
+    <span class="token operator">&lt;</span>/dependencies<span class="token operator">></span>
+    <span class="token operator">&lt;</span>build<span class="token operator">></span>
+        <span class="token operator">&lt;</span>finalName<span class="token operator">></span>pl-es<span class="token operator">&lt;</span>/finalName<span class="token operator">></span>
+        <span class="token operator">&lt;</span>resources<span class="token operator">></span>
+            <span class="token operator">&lt;</span>resource<span class="token operator">></span>
+                <span class="token operator">&lt;</span>directory<span class="token operator">></span>src/main/resources<span class="token operator">&lt;</span>/directory<span class="token operator">></span>
+                <span class="token operator">&lt;</span>filtering<span class="token operator">></span>true<span class="token operator">&lt;</span>/filtering<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/resource<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/resources<span class="token operator">></span>
+        <span class="token operator">&lt;</span>plugins<span class="token operator">></span>
+            <span class="token operator">&lt;</span>plugin<span class="token operator">></span>
+                <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>maven-compiler-plugin<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>version<span class="token operator">></span>3.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+                <span class="token operator">&lt;</span>configuration<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>source<span class="token operator">></span>1.8<span class="token operator">&lt;</span>/source<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>target<span class="token operator">></span>1.8<span class="token operator">&lt;</span>/target<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>encoding<span class="token operator">></span>UTF-8<span class="token operator">&lt;</span>/encoding<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/configuration<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/plugin<span class="token operator">></span>
+
+            <span class="token operator">&lt;</span>plugin<span class="token operator">></span>
+                <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>maven-resources-plugin<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>version<span class="token operator">></span>2.5<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+                <span class="token operator">&lt;</span>configuration<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>encoding<span class="token operator">></span>UTF-8<span class="token operator">&lt;</span>/encoding<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/configuration<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/plugin<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span>/plugins<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>/build<span class="token operator">></span>
+<span class="token operator">&lt;</span>/project<span class="token operator">></span>
+</code></pre>
+<ul>
+<li>web层 pom.xml 依赖</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash"><span class="token operator">&lt;</span>?xml version<span class="token operator">=</span><span class="token string">"1.0"</span> encoding<span class="token operator">=</span><span class="token string">"UTF-8"</span>?<span class="token operator">></span>
+
+<span class="token operator">&lt;</span>project xmlns<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi<span class="token operator">=</span><span class="token string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         xsi:schemaLocation<span class="token operator">=</span><span class="token string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>parent<span class="token operator">></span>
+        <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es-project<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+        <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.iflytek.sc.pl.project<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+        <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/parent<span class="token operator">></span>
+    <span class="token operator">&lt;</span>modelVersion<span class="token operator">></span>4.0.0<span class="token operator">&lt;</span>/modelVersion<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es-web<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+    <span class="token operator">&lt;</span>packaging<span class="token operator">></span>war<span class="token operator">&lt;</span>/packaging<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>name<span class="token operator">></span>pl-es-web Maven Webapp<span class="token operator">&lt;</span>/name<span class="token operator">></span>
+    <span class="token operator">&lt;</span>url<span class="token operator">></span>http://www.example.com<span class="token operator">&lt;</span>/url<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>dependencies<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.dubbo.xw.demo<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>xw-api<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&amp;</span>lt<span class="token punctuation">;</span><span class="token operator">!</span><span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span><span class="token operator">&lt;</span>classifier<span class="token operator">></span>pg<span class="token operator">&lt;</span>/classifier<span class="token operator">></span><span class="token operator">&amp;</span>lt<span class="token punctuation">;</span><span class="token operator">!</span><span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span>如果不想依赖混淆的包，请注释掉该行<span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span><span class="token operator">&amp;</span>ndash<span class="token punctuation">;</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${xw.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>pl-es<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>com.iflytek.sc.pl.project.es<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>1.0-SNAPSHOT<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.dubbo.xw.demo<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>artifactId<span class="token operator">></span>xw-elasticsearch<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>--<span class="token operator">></span>
+            <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>version<span class="token operator">></span><span class="token variable">${xw.version}</span><span class="token operator">&lt;</span>/version<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- FreeMarker --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.freemarker<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>freemarker<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>2.3.28<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--添加ckez等相关的jar--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--<span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.zkoss.zkforge<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>ckez<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>4.3.3.0<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>--<span class="token operator">></span>
+
+        <span class="token operator">&lt;</span><span class="token operator">!</span>--activiti工作流--<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.activiti/activiti-engine --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.activiti<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>activiti-engine<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.19.0.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.activiti/activiti-spring --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.activiti<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>activiti-spring<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.19.0.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token operator">!</span>-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model --<span class="token operator">></span>
+        <span class="token operator">&lt;</span>dependency<span class="token operator">></span>
+            <span class="token operator">&lt;</span>groupId<span class="token operator">></span>org.activiti<span class="token operator">&lt;</span>/groupId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>activiti-bpmn-model<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+            <span class="token operator">&lt;</span>version<span class="token operator">></span>5.19.0.2<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/dependency<span class="token operator">></span>
+
+
+    <span class="token operator">&lt;</span>/dependencies<span class="token operator">></span>
+    <span class="token operator">&lt;</span>build<span class="token operator">></span>
+        <span class="token operator">&lt;</span>finalName<span class="token operator">></span>ROOT<span class="token operator">&lt;</span>/finalName<span class="token operator">></span>
+        <span class="token operator">&lt;</span>plugins<span class="token operator">></span>
+            <span class="token operator">&lt;</span>plugin<span class="token operator">></span>
+                <span class="token operator">&lt;</span>artifactId<span class="token operator">></span>maven-compiler-plugin<span class="token operator">&lt;</span>/artifactId<span class="token operator">></span>
+                <span class="token operator">&lt;</span>version<span class="token operator">></span>3.1<span class="token operator">&lt;</span>/version<span class="token operator">></span>
+                <span class="token operator">&lt;</span>configuration<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>source<span class="token operator">></span>1.8<span class="token operator">&lt;</span>/source<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>target<span class="token operator">></span>1.8<span class="token operator">&lt;</span>/target<span class="token operator">></span>
+                    <span class="token operator">&lt;</span>encoding<span class="token operator">></span>UTF-8<span class="token operator">&lt;</span>/encoding<span class="token operator">></span>
+                <span class="token operator">&lt;</span>/configuration<span class="token operator">></span>
+            <span class="token operator">&lt;</span>/plugin<span class="token operator">></span>
+        <span class="token operator">&lt;</span>/plugins<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/build<span class="token operator">></span>
+<span class="token operator">&lt;</span>/project<span class="token operator">></span>
+
+</code></pre>
 <p>就配置了es和db 就这么一大坨配置文件 令人恶心接下来会整理一个SpringBoot版本的</p>
 </section>
     <!-- Tags START -->
@@ -569,7 +1269,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-spring配置ES"><span class="toc-nav-text">1.spring配置ES</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-spring配置ES"><span class="toc-nav-text">1.spring配置ES</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-jar管理"><span class="toc-nav-text">2.jar管理</span></a></li></ol>
     
   </div>
 </aside>
