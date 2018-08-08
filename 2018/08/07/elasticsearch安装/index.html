@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="ggoby&#39;s blog">
+  <meta name="keyword" content="hexo-theme, java">
+  
+    <link rel="shortcut icon" href="/css/images/logo.png">
+  
+  <title>
+    
+      elasticsearch安装 | ggboy
+    
+  </title>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/plugins/gitment.css">
+  <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <script src="/js/qrious.js"></script>
+<script src="/js/gitment.js"></script>
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png" />
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/">
+      <div class="logo"></div>
+      <span>ggboy</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>elasticsearch安装</h2>
+  <p class="post-date">2018-08-07</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="1-windows下安装-elasticsearch-简称：ES"><a href="#1-windows下安装-elasticsearch-简称：ES" class="headerlink" title="1.windows下安装 elasticsearch (简称：ES)"></a>1.windows下安装 elasticsearch (简称：ES)</h2><ul>
+<li><a href="https://pan.baidu.com/s/1-DVzvEiHSQcqHG9P0K96ig" title="es 5.5.0" target="_blank" rel="noopener">版本elasticsearch-5.5.0</a></li>
+<li><a href="https://pan.baidu.com/s/1U6qi0YdW6u1TQiNACHiwHQ" title="jdk 1.8" target="_blank" rel="noopener">jdk 1.8</a></li>
+</ul>
+<h2 id="2-安装ES"><a href="#2-安装ES" class="headerlink" title="2.安装ES"></a>2.安装ES</h2><ul>
+<li>jdk安装跳过</li>
+<li>解压elasticsearch到某个目录，例如F:\DevelopersTools\elasticsearch-5.5.0<br><img src="/static/img/es.png" alt="没有找到图片"></li>
+<li>进入bin 目录，双击执行 elasticsearch.bat 如下图<br><img src="/static/img/escmd.png" alt="没有找到图片"></li>
+<li>检查是否安装成功</li>
+<li>访问： <a href="http://localhost:9200" target="_blank" rel="noopener">http://localhost:9200</a> 会返回一串json信息<br><img src="/static/img/esstart.png" alt="没有找到图片"></li>
+</ul>
+<h2 id="3-安装head插件"><a href="#3-安装head插件" class="headerlink" title="3.安装head插件"></a>3.安装head插件</h2><ul>
+<li><a href="https://pan.baidu.com/s/1Xq_TGJLs0k2NRRboadEzyA" title="node.js" target="_blank" rel="noopener">node.js</a></li>
+<li><p><a href="https://pan.baidu.com/s/16v6ylBDWH2Tb4iEhtCumdQ" title="es head 数据可视化插件" target="_blank" rel="noopener">elastcsearch-head</a></p>
+</li>
+<li><p>安装node.js</p>
+<ul>
+<li><p>安装node到D盘。如D:\nodejs。</p>
+</li>
+<li><p>把NODE_HOME设置到环境变量里(安装包也可以自动加入PATH环境变量)。测试一下node是否生效 <code>node -v</code><br><img src="/static/img/nodejs.png" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>安装grunt</p>
+<ul>
+<li>grunt是一个很方便的构建工具，可以进行打包压缩、测试、执行等等的工作，5.0里的head插件就是通过grunt启动的。因此需要安装grunt：</li>
+<li><code>pm install -g grunt-cli</code></li>
+<li>执行 <code>grunt -version</code>    检查grunt 是否安装成功 </li>
+</ul>
+</li>
+<li><p>解压 elastcsearch-head 比如 F:\DevelopersTools\elasticsearch-head 如下图<br>  <img src="/static/img/eshead.png" alt=""></p>
+</li>
+</ul>
+<h2 id="4-修改head源码"><a href="#4-修改head源码" class="headerlink" title="4.修改head源码"></a>4.修改head源码</h2><p>由于head的代码还是2.6版本的，直接执行有很多限制，比如无法跨机器访问。因此需要用户修改两个地方：</p>
+<p>目录：elasticsearch-head/Gruntfile.js：</p>
+<pre class=" language-javascript"><code class="language-javascript">connect<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    server<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            port<span class="token punctuation">:</span> <span class="token number">9100</span><span class="token punctuation">,</span>
+            hostname<span class="token punctuation">:</span> <span class="token string">'*'</span><span class="token punctuation">,</span>
+            base<span class="token punctuation">:</span> <span class="token string">'.'</span><span class="token punctuation">,</span>
+            keepalive<span class="token punctuation">:</span> <span class="token boolean">true</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>增加hostname属性，设置为*</p>
+<p>修改连接地址：<br>目录：elasticsearch-head/_site/app.js<br>修改head的连接地址:</p>
+<pre class=" language-javaScript"><code class="language-javaScript">this.base_uri = this.config.base_uri || this.prefs.get("app-base_uri") || "http://localhost:9200";
+</code></pre>
+<p>把localhost修改成你es的服务器地址，如：</p>
+<pre class=" language-javaScript"><code class="language-javaScript">this.base_uri = this.config.base_uri || this.prefs.get("app-base_uri") || "http://10.10.10.10:9200";
+</code></pre>
+<p>运行head<br>修改elasticsearch的参数<br>修改一下es使用的参数。编辑F:/DevelopersTools/elasticsearch-5.5.0/config/elasticsearch.yml：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># ======================== Elasticsearch Configuration =========================</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># NOTE: Elasticsearch comes with reasonable defaults for most settings.</span>
+<span class="token comment" spellcheck="true">#       Before you set out to tweak and tune the configuration, make sure you</span>
+<span class="token comment" spellcheck="true">#       understand what are you trying to accomplish and the consequences.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># The primary way of configuring a node is via this file. This template lists</span>
+<span class="token comment" spellcheck="true"># the most important settings you may want to configure for a production cluster.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Please consult the documentation for further information on configuration options:</span>
+<span class="token comment" spellcheck="true"># https://www.elastic.co/guide/en/elasticsearch/reference/index.html</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ---------------------------------- Cluster -----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Use a descriptive name for your cluster:</span>
+<span class="token comment" spellcheck="true"># 换个集群的名字，免得跟别人的集群混在一起</span>
+cluster.name: es-5.5.0-yg
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ------------------------------------ Node ------------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Use a descriptive name for the node:</span>
+<span class="token comment" spellcheck="true"># 换个节点名字</span>
+node.name: node-101
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Add custom attributes to the node:</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#node.attr.rack: r1</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ----------------------------------- Paths ------------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Path to directory where to store the data (separate multiple locations by comma):</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#path.data: /path/to/data</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Path to log files:</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#path.logs: /path/to/logs</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ----------------------------------- Memory -----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Lock the memory on startup:</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#bootstrap.memory_lock: true</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Make sure that the heap size is set to about half the memory available</span>
+<span class="token comment" spellcheck="true"># on the system and that the owner of the process is allowed to use this</span>
+<span class="token comment" spellcheck="true"># limit.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Elasticsearch performs poorly when the system is swapping the memory.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ---------------------------------- Network -----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Set the bind address to a specific IP (IPv4 or IPv6):</span>
+<span class="token comment" spellcheck="true"># 修改一下ES的监听地址，这样别的机器也可以访问</span>
+network.host: 0.0.0.0
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Set a custom port for HTTP:</span>
+<span class="token comment" spellcheck="true"># 默认的就好</span>
+<span class="token comment" spellcheck="true">#http.port: 9200</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># For more information, consult the network module documentation.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># --------------------------------- Discovery ----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Pass an initial list of hosts to perform discovery when new node is started:</span>
+<span class="token comment" spellcheck="true"># The default list of hosts is ["127.0.0.1", "[::1]"]</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#discovery.zen.ping.unicast.hosts: ["host1", "host2"]</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#discovery.zen.minimum_master_nodes: 3</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># For more information, consult the zen discovery module documentation.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ---------------------------------- Gateway -----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Block initial recovery after a full cluster restart until N nodes are started:</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#gateway.recover_after_nodes: 3</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># For more information, consult the gateway module documentation.</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># ---------------------------------- Various -----------------------------------</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Require explicit names when deleting indices:</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true">#action.destructive_requires_name: true</span>
+
+<span class="token comment" spellcheck="true"># 增加新的参数，这样head插件可以访问es</span>
+http.cors.enabled: <span class="token boolean">true</span>
+http.cors.allow-origin: <span class="token string">"*"</span>
+
+</code></pre>
+<p>注意，设置参数的时候:后面要有空格！</p>
+<h2 id="5-重启elasticsearch-5-5-0："><a href="#5-重启elasticsearch-5-5-0：" class="headerlink" title="5.重启elasticsearch-5.5.0："></a>5.重启elasticsearch-5.5.0：</h2><pre class=" language-bash"><code class="language-bash">F:\DevelopersTools\elasticsearch-5.5.0\bin\elasticsearch.bat
+</code></pre>
+<h2 id="6-编译elasticsearch-head"><a href="#6-编译elasticsearch-head" class="headerlink" title="6.编译elasticsearch-head"></a>6.编译elasticsearch-head</h2><p>进入 F:\DevelopersTools\elasticsearch-head 目录执行：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span>
+</code></pre>
+<p>安装过程中会出现一个错误 如图：<br><img src="/static/img/headinstallerror.png" alt=""><br>于是搜了一下问题<br><img src="/static/img/headinstallqa.png" alt=""><br>大致意思是这是系统环境问题因为我装的是windows如果装载OS上就不会报错了可以忽略</p>
+<h2 id="7-启动head插件："><a href="#7-启动head插件：" class="headerlink" title="7.启动head插件："></a>7.启动head插件：</h2><p>cmd 进入 F:\DevelopersTools\elasticsearch-head 执行：</p>
+<pre class=" language-bash"><code class="language-bash">grunt server
+</code></pre>
+<p>也可以 新建一个 es-head.bat 批处理文件 双击运行就可以了</p>
+<pre class=" language-bash"><code class="language-bash">F:
+<span class="token function">cd</span> F:\DevelopersTools\elasticsearch-head\
+grunt server
+</code></pre>
+<p>启动后如图：<br><img src="/static/img/headstart.png" alt=""></p>
+<p>访问 <a href="http://localhost:9100" target="_blank" rel="noopener">http://localhost:9100</a><br><img src="/static/img/headpage.png" alt=""></p>
+<p>这里是已经存储了索引下一章会记录如何创建索引以及搜索高亮</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/tags#搜索引擎" >
+    <span class="tag-code">搜索引擎</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/2018/07/23/LeetCode-搜索二维矩阵/">
+        <span class="nav-arrow">← </span>
+        
+          LeetCode-搜索二维矩阵
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+      <div class="money-like">
+        <div class="reward-btn">
+          赏
+          <span class="money-code">
+            <span class="alipay-code">
+              <div class="code-image"></div>
+              <b>使用支付宝打赏</b>
+            </span>
+            <span class="wechat-code">
+              <div class="code-image"></div>
+              <b>使用微信打赏</b>
+            </span>
+          </span>
+        </div>
+        <p class="notice">若你觉得我的文章对你有帮助，欢迎点击上方按钮对我打赏</p>
+      </div>
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+      <div class="qrcode">
+        <canvas id="share-qrcode"></canvas>
+        <p class="notice">扫描二维码，分享此文章</p>
+      </div>
+    
+    <!-- 二维码 END -->
+    
+      <!-- Gitment START -->
+      <div id="comments"></div>
+      <!-- Gitment END -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-windows下安装-elasticsearch-简称：ES"><span class="toc-nav-text">1.windows下安装 elasticsearch (简称：ES)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-安装ES"><span class="toc-nav-text">2.安装ES</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-安装head插件"><span class="toc-nav-text">3.安装head插件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-修改head源码"><span class="toc-nav-text">4.修改head源码</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-重启elasticsearch-5-5-0："><span class="toc-nav-text">5.重启elasticsearch-5.5.0：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-编译elasticsearch-head"><span class="toc-nav-text">6.编译elasticsearch-head</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-启动head插件："><span class="toc-nav-text">7.启动head插件：</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'http://yoursite.com/2018/08/07/elasticsearch安装/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+     // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+        
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+
+    // qrcode
+    var qr = new QRious({
+      element: document.getElementById('share-qrcode'),
+      value: document.location.href
+    });
+
+    // gitment
+    var gitmentConfig = "wolfyg";
+    if (gitmentConfig !== 'undefined') {
+      var gitment = new Gitment({
+        id: "elasticsearch安装",
+        owner: "wolfyg",
+        repo: "wolfyg.github.io",
+        oauth: {
+          client_id: "c50298c09edd77c1c314",
+          client_secret: "629da662f6b5a2f6350a3b72255319417a177888"
+        },
+        theme: {
+          render(state, instance) {
+            const container = document.createElement('div')
+            container.lang = "en-US"
+            container.className = 'gitment-container gitment-root-container'
+            container.appendChild(instance.renderHeader(state, instance))
+            container.appendChild(instance.renderEditor(state, instance))
+            container.appendChild(instance.renderComments(state, instance))
+            container.appendChild(instance.renderFooter(state, instance))
+            return container;
+          }
+        }
+      })
+      gitment.render(document.getElementById('comments'))
+    }
+  })();
+</script>
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2018 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    Theme by <a href="https://github.com/yanm1ng">yanm1ng</a>
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/js/script.js"></script>
+  </body>
+</html>

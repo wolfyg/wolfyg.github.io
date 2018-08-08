@@ -141,6 +141,26 @@
   
     <article class="article-card">
       <h2 class="article-head">
+        <a href="/2018/05/21/记一次缓存穿透问题/">记一次缓存穿透问题</a>
+      </h2>
+      <p class="article-date">May 21, 2018</p>
+      
+        
+  <a href="/tags#cache" >
+    <span class="tag-code">cache</span>
+  </a>
+
+      
+      <div class="article-summary">
+        
+          1. 场景描述公司产品的一次抽奖活动，在压测过程中把数开始了一俩轮没有问题，就在测第三轮的时候响应速度异常的慢数据库的链接也满了（当时是单机测试），当时感觉很奇怪明明加了缓存（用的是memcached）为什么会干到数据库中了当时首先想到的是memcached挂了经过排查不是，难道时缓存穿透了 ...
+        
+      </div>
+      <a class="more" href="/2018/05/21/记一次缓存穿透问题/">Read more</a>
+    </article>
+  
+    <article class="article-card">
+      <h2 class="article-head">
         <a href="/2018/05/14/微信授权，推送，自定义分享/">微信授权，推送，自定义分享</a>
       </h2>
       <p class="article-date">May 14, 2018</p>
@@ -355,28 +375,6 @@ start() : 它的作用是启动一个新线程，新线程会执行相应的run(
       <a class="more" href="/2018/05/02/my-first-blog/">Read more</a>
     </article>
   
-    <article class="article-card">
-      <h2 class="article-head">
-        <a href="/2018/04/28/hello-world/">优秀前端bolg</a>
-      </h2>
-      <p class="article-date">April 28, 2018</p>
-      
-        
-  <a href="/tags#前端" >
-    <span class="tag-code">前端</span>
-  </a>
-
-      
-      <div class="article-summary">
-        
-          这是我在工作中遇到问题时寻求解决方法时，对我有帮助的bolg。这些bolg带给我的一些帮助，让我在工作中少走了很多弯路，这里分了前端和后端俩类这些bolg都是大师多年积累的经验，在此次记录做个记录方便日后学习。
-前端
-1.https://bryanadamss.github.io/ (备注： ...
-        
-      </div>
-      <a class="more" href="/2018/04/28/hello-world/">Read more</a>
-    </article>
-  
 
   
     <div class="guide-pager">
@@ -384,7 +382,7 @@ start() : 它的作用是启动一个新线程，新线程会执行相应的run(
     <a href="/"><span class="page-arrow">← </span>Prev</a>
   
   
-    <a class="unvisible" href="/">Next <span class="page-arrow">→</span></a>
+    <a href="/page/3/">Next<span class="page-arrow"> →</span></a>
   
 </div>
   
