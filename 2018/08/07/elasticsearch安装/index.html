@@ -296,13 +296,13 @@ http.cors.allow-origin: <span class="token string">"*"</span>
 
 </code></pre>
 <p>注意，设置参数的时候:后面要有空格！</p>
-<h2 id="5-重启elasticsearch-5-5-0："><a href="#5-重启elasticsearch-5-5-0：" class="headerlink" title="5.重启elasticsearch-5.5.0："></a>5.重启elasticsearch-5.5.0：</h2><pre class=" language-bash"><code class="language-bash">F:\DevelopersTools\elasticsearch-5.5.0\bin\elasticsearch.bat
+<h2 id="5-重启elasticsearch-5-5-0"><a href="#5-重启elasticsearch-5-5-0" class="headerlink" title="5.重启elasticsearch-5.5.0"></a>5.重启elasticsearch-5.5.0</h2><pre class=" language-bash"><code class="language-bash">F:\DevelopersTools\elasticsearch-5.5.0\bin\elasticsearch.bat
 </code></pre>
 <h2 id="6-编译elasticsearch-head"><a href="#6-编译elasticsearch-head" class="headerlink" title="6.编译elasticsearch-head"></a>6.编译elasticsearch-head</h2><p>进入 F:\DevelopersTools\elasticsearch-head 目录执行：</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span>
 </code></pre>
 <p>安装过程中会出现一个错误 如图：<br><img src="/static/img/headinstallerror.png" alt=""><br>于是搜了一下问题<br><img src="/static/img/headinstallqa.png" alt=""><br>大致意思是这是系统环境问题因为我装的是windows如果装载OS上就不会报错了可以忽略</p>
-<h2 id="7-启动head插件："><a href="#7-启动head插件：" class="headerlink" title="7.启动head插件："></a>7.启动head插件：</h2><p>cmd 进入 F:\DevelopersTools\elasticsearch-head 执行：</p>
+<h2 id="7-启动head插件"><a href="#7-启动head插件" class="headerlink" title="7.启动head插件"></a>7.启动head插件</h2><p>cmd 进入 F:\DevelopersTools\elasticsearch-head 执行：</p>
 <pre class=" language-bash"><code class="language-bash">grunt server
 </code></pre>
 <p>也可以 新建一个 es-head.bat 批处理文件 双击运行就可以了</p>
@@ -312,7 +312,30 @@ grunt server
 </code></pre>
 <p>启动后如图：<br><img src="/static/img/headstart.png" alt=""></p>
 <p>访问 <a href="http://localhost:9100" target="_blank" rel="noopener">http://localhost:9100</a><br><img src="/static/img/headpage.png" alt=""></p>
-<p>这里是已经存储了索引下一章会记录如何创建索引以及搜索高亮</p>
+<h2 id="8-分词插件"><a href="#8-分词插件" class="headerlink" title="8.分词插件"></a>8.分词插件</h2><ul>
+<li>ES默认的分词插件对中文支持的不好会，比如一串短语会拆分成一个字一个字的形式这样搜索起来范围就会很广范不够精确，没有分词插件之前默认分词效果如下图：<br><img src="/static/img/noik1.png" alt=""></li>
+<li><p>现在我们开始装插件<br><a href="https://github.com/medcl/elasticsearch-analysis-ik/releases?after=v5.6.4" title="elasticsearch-analysis-ik-5.5.0.zip" target="_blank" rel="noopener">elasticsearch-analysis-ik-5.5.0.zip</a> </p>
+<ul>
+<li>一定要对应上ES版本 不然会有问题</li>
+</ul>
+</li>
+<li><p>下载完毕解压到ES服务的目录比如：F:\DevelopersTools\elasticsearch-5.5.0</p>
+</li>
+<li><p>然后在plugins文件夹下新建一个ik文件夹把解压内容放进去重启ES服务，目录结构如图：<br><img src="/static/img/ikplugins.png" alt=""></p>
+</li>
+<li><p>测试一下分词插件如下图</p>
+<ul>
+<li><a href="http://localhost:9200/_analyze?analyzer=ik_smart&amp;text=%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E6%9C%80%E6%A3%92" target="_blank" rel="noopener">http://localhost:9200/_analyze?analyzer=ik_smart&amp;text=中华人民最棒</a><br><img src="/static/img/ik_smart.jpg" alt=""></li>
+</ul>
+</li>
+<li><p>OK出现这样案例就说明分词安装成功了</p>
+</li>
+<li>analyzer 参数 有俩个 ik_max_word 和 ik_smart 什么区别?：<ul>
+<li>ik_max_word：会将文本做最细粒度的拆分，比如会将“中华人民共和国国歌”拆分为“中华人民共和国,中华人民,中华,华人,人民共和国,人民,人,民,共和国,共和,和,国国,国歌”，会穷尽各种可能的组合；</li>
+<li>ik_smart: 会做最粗粒度的拆分，比如会将“中华人民最棒”拆分为“中华人民    ,最,棒”。 </li>
+</ul>
+</li>
+</ul>
 </section>
     <!-- Tags START -->
     
@@ -390,7 +413,7 @@ grunt server
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-windows下安装-elasticsearch-简称：ES"><span class="toc-nav-text">1.windows下安装 elasticsearch (简称：ES)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-安装ES"><span class="toc-nav-text">2.安装ES</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-安装head插件"><span class="toc-nav-text">3.安装head插件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-修改head源码"><span class="toc-nav-text">4.修改head源码</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-重启elasticsearch-5-5-0："><span class="toc-nav-text">5.重启elasticsearch-5.5.0：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-编译elasticsearch-head"><span class="toc-nav-text">6.编译elasticsearch-head</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-启动head插件："><span class="toc-nav-text">7.启动head插件：</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-windows下安装-elasticsearch-简称：ES"><span class="toc-nav-text">1.windows下安装 elasticsearch (简称：ES)</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-安装ES"><span class="toc-nav-text">2.安装ES</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-安装head插件"><span class="toc-nav-text">3.安装head插件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-修改head源码"><span class="toc-nav-text">4.修改head源码</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-重启elasticsearch-5-5-0"><span class="toc-nav-text">5.重启elasticsearch-5.5.0</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-编译elasticsearch-head"><span class="toc-nav-text">6.编译elasticsearch-head</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-启动head插件"><span class="toc-nav-text">7.启动head插件</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#8-分词插件"><span class="toc-nav-text">8.分词插件</span></a></li></ol>
     
   </div>
 </aside>
