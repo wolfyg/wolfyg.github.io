@@ -10,7 +10,7 @@
   
   <title>
     
-      Linux常用命令汇总 | ggboy
+      elasticsearch集群 | ggboy
     
   </title>
   <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,8 +138,8 @@
 </header>
 
     <div id="article-banner">
-  <h2>Linux常用命令汇总</h2>
-  <p class="post-date">2018-07-17</p>
+  <h2>elasticsearch集群</h2>
+  <p class="post-date">2018-08-24</p>
   <div class="arrow-down">
     <a href="javascript:;"></a>
   </div>
@@ -147,165 +147,133 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h2 id="1-文件管理"><a href="#1-文件管理" class="headerlink" title="1.文件管理"></a>1.文件管理</h2><ul>
-<li><p>exit - 退出当前用户</p>
+    <section class="markdown-content"><h2 id="单机集群配置"><a href="#单机集群配置" class="headerlink" title="单机集群配置"></a>单机集群配置</h2><ul>
+<li><p><a href="https://wolfyg.github.io/2018/08/07/elasticsearch%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener">安装点我</a></p>
 </li>
-<li><p>clear - 清屏</p>
-</li>
-<li><p>ls -l|grep “^-“| wc -l &lt;==查看当前目录下的文件数量（不包含子目录中的文件）</p>
-</li>
-<li><p>ls -lR|grep “^-“| wc -l &lt;==查看当前目录下的文件数量（包含子目录中的文件） 注意：R，代表子目录</p>
-</li>
-<li><p>ls -l|grep “^d”| wc -l &lt;== 查看当前目录下的文件夹目录个数（不包含子目录中的目录），同上述理，如果需要查看子目录的，加上R</p>
-</li>
-<li><p>ls -lR 20161124*/|grep “^-“| wc -l &lt;==查询当前路径下的指定前缀名的目录下的所有文件数量,例如：统计所有以“20161124”开头的目录下的全部文件数量</p>
-<ul>
-<li>ls -l<br>该命令表示以长列表输出指定目录下的信息（未指定则表示当前目录），R代表子目录中的“文件”，这个“文件”指的是目录、链接、设备文件等的总称</li>
-<li>grep<br>“^d” 表示目录<br>“^-“表示文件</li>
-<li>wc -l<br>表示统计输出信息的行数，因为经过前面的过滤已经只剩下普通文件，一个目录或文件对应一行，所以统计的信息的行数也就是目录或文件的个数</li>
-</ul>
+<li><p>安装完毕配置节点复制3份es<br><img src="/static/img/es_cluster.png" alt=""></p>
 </li>
 </ul>
 <ul>
-<li>rz -上传</li>
+<li>修改master服务config/elasticsearch.yml</li>
 </ul>
+<pre class=" language-bash"><code class="language-bash">
+<span class="token comment" spellcheck="true"># ---------------------------------- Cluster -----------------------------------</span>
+<span class="token comment" spellcheck="true"># 换个集群的名字，免得跟别人的集群混在一起</span>
+cluster.name: es-5.5.0-yg
+
+node.name: master
+<span class="token comment" spellcheck="true">#主机</span>
+node.master: <span class="token boolean">true</span>
+
+network.host: 192.168.3.138
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Set a custom port for HTTP:</span>
+<span class="token comment" spellcheck="true"># head访问端口</span>
+http.port: 9200
+<span class="token comment" spellcheck="true">#数据传输端口</span>
+transport.tcp.port: 9300
+
+<span class="token comment" spellcheck="true"># --------------------------------- Discovery ----------------------------------</span>
+
+discovery.zen.ping.unicast.hosts: <span class="token punctuation">[</span><span class="token string">"192.168.3.138:9300"</span>, <span class="token string">"192.168.3.138:9301"</span>, <span class="token string">"192.168.3.138:9302"</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># ---------------------------------- Gateway -----------------------------------</span>
+
+<span class="token comment" spellcheck="true"># 增加新的参数，这样head插件可以访问es</span>
+http.cors.enabled: <span class="token boolean">true</span>
+http.cors.allow-origin: <span class="token string">"*"</span>
+
+</code></pre>
 <ul>
-<li>sz-下载</li>
+<li>修改slave1服务 config/elasticsearch.yml</li>
 </ul>
+<pre class=" language-bash"><code class="language-bash">
+<span class="token comment" spellcheck="true"># ---------------------------------- Cluster -----------------------------------</span>
+<span class="token comment" spellcheck="true"># 换个集群的名字，免得跟别人的集群混在一起</span>
+cluster.name: es-5.5.0-yg
+
+node.name: slave1
+
+network.host: 192.168.3.138
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Set a custom port for HTTP:</span>
+<span class="token comment" spellcheck="true"># head访问端口</span>
+http.port: 9201
+<span class="token comment" spellcheck="true">#数据传输端口</span>
+transport.tcp.port: 9301
+
+<span class="token comment" spellcheck="true"># --------------------------------- Discovery ----------------------------------</span>
+
+discovery.zen.ping.unicast.hosts: <span class="token punctuation">[</span><span class="token string">"192.168.3.138:9300"</span>, <span class="token string">"192.168.3.138:9301"</span>, <span class="token string">"192.168.3.138:9302"</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># ---------------------------------- Gateway -----------------------------------</span>
+
+<span class="token comment" spellcheck="true"># 增加新的参数，这样head插件可以访问es</span>
+http.cors.enabled: <span class="token boolean">true</span>
+http.cors.allow-origin: <span class="token string">"*"</span>
+
+</code></pre>
 <ul>
-<li>zip包解压方式<ul>
-<li>unzip 源文件 -d 指定文件夹</li>
+<li>修改slave2服务 config/elasticsearch.yml</li>
 </ul>
+<pre class=" language-bash"><code class="language-bash">
+<span class="token comment" spellcheck="true"># ---------------------------------- Cluster -----------------------------------</span>
+<span class="token comment" spellcheck="true"># 换个集群的名字，免得跟别人的集群混在一起</span>
+cluster.name: es-5.5.0-yg
+
+node.name: slave2
+
+network.host: 192.168.3.138
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># Set a custom port for HTTP:</span>
+<span class="token comment" spellcheck="true"># head访问端口</span>
+http.port: 9202
+数据传输端口
+transport.tcp.port: 9302
+
+<span class="token comment" spellcheck="true"># --------------------------------- Discovery ----------------------------------</span>
+
+discovery.zen.ping.unicast.hosts: <span class="token punctuation">[</span><span class="token string">"192.168.3.138:9300"</span>, <span class="token string">"192.168.3.138:9301"</span>, <span class="token string">"192.168.3.138:9302"</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># ---------------------------------- Gateway -----------------------------------</span>
+
+<span class="token comment" spellcheck="true"># 增加新的参数，这样head插件可以访问es</span>
+http.cors.enabled: <span class="token boolean">true</span>
+http.cors.allow-origin: <span class="token string">"*"</span>
+
+</code></pre>
+<p>多多节依次类推,更改http.port（提供head访问,不可冲突） 和 transport.tcp.port（数据传输使用,不可冲突）</p>
+<ul>
+<li>配置完毕elasticsearch.yml就可以启动服务，谁先启动谁就会被选为master</li>
+<li><p>访问地址 <a href="http://localhost:9100" target="_blank" rel="noopener">http://localhost:9100</a><br><img src="/static/img/cluster1.png" alt=""><br>这是先启动master服务所以他被选为主服务☆表示主服务，如果主服务宕机了会自动选主如图<br><img src="/static/img/cluster2.png" alt=""><br>这样如果有一个节点宕机也不会影响es服务</p>
+</li>
+<li><p>Spring配置多节点</p>
 </li>
 </ul>
-<ul>
-<li>rm -删除命令<ul>
-<li>rm 文件</li>
-<li>rm -rf 文件夹</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>vi/vim 编辑模式<ul>
-<li>vi 新建文本.txt</li>
-<li>vim  新建文本.txt</li>
-<li>i &lt;== 编辑模式 </li>
-<li>:wq/:wq! &lt;== 保存/强制保存</li>
-<li>:q/:q! &lt;== 退出/强制退出</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>cat 查看文件<ul>
-<li>cat 文件.txt</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>chmod -使用权限<ul>
-<li>chmod 777 file &lt;== 文件享受所有权限</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>file 辨识文件类型<ul>
-<li>file -b install.log  &lt;== 不显示文件名称</li>
-<li>file -i install.log  &lt;== 显示MIME类别</li>
-<li>file -b -i install.log &lt;== 显示MIME类别不显示名称</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>find 用来在指定目录下查找文件<ul>
-<li>find -name “*.txt” &lt;== 查找当前文件夹下所有.txt的文件</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>mv 用来为文件或目录改名、或将文件或目录移入其它位置</p>
-<ul>
-<li>mv aaa bbb &lt;== 将文件 aaa 更名为 bbb</li>
-<li>mv info/ logs &lt;== 将info目录放入logs目录中。注意，如果logs目录不存在，则该命令将info改名为logs。</li>
-</ul>
-</li>
-<li><p>cp 复制文件或目录</p>
-<ul>
-<li>cp –r test/ newtest &lt;== -r表示文件夹 将当前目录”test/“下的所有文件复制到新目录”newtest”</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>rm 用于删除一个文件或者目录<ul>
-<li>rm  test.txt &lt;== 删除一个文件</li>
-<li>rm -r  test &lt;== 删除一个目录</li>
-<li>rm -r * &lt;== 删除当前目录下的所有文件及目录</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>tee 使用指令”tee”将用户输入的数据同时保存到文件”file1”和”file2”中<ul>
-<li>tee file1 file2 &lt;== 在两个文件中复制内容 </li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>scp 用于Linux之间复制文件和目录<ul>
-<li>scp -r 文件夹 用户名@域名/ip:地址  &lt;==上传文件夹</li>
-<li>scp -r 用户名@目标地址:目标资源目录 本地目录 &lt;== -r下载远程文件夹    </li>
-<li>scp 用户名@域名/ip:远程文件的地址 本地地址 &lt;== 下载文件</li>
-</ul>
-</li>
-</ul>
-<h2 id="2文档编辑"><a href="#2文档编辑" class="headerlink" title="2文档编辑"></a>2文档编辑</h2><p>持续更新。。。。。。</p>
-<h2 id="3备份压缩"><a href="#3备份压缩" class="headerlink" title="3备份压缩"></a>3备份压缩</h2><ul>
-<li>zip 打zip包<ul>
-<li>zip -r cp3.zip /root/ </li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>upzip 解压zip<ul>
-<li>unzip 源文件 -d 指定文件夹<ul>
-<li>unzip -cp3.zip -d cp3 ==&gt; 将cp3.zip解压到 当前cp3文件夹</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>zipinfo 显示压缩文件信息<ul>
-<li>zipinfo -v cp.zip ==&gt;显示压缩文件中每个文件的信息</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li></li>
-</ul>
-<h2 id="3清除操作记录"><a href="#3清除操作记录" class="headerlink" title="3清除操作记录"></a>3清除操作记录</h2><ul>
-<li><p>last -清除登陆系统成功的记录，也就是last命令看到的记录</p>
-<ul>
-<li>cho “”&gt; /var/log/wtmp &lt;==此文件默认打开时乱码的，里面可以看到ip等等信息</li>
-</ul>
-</li>
-<li><p>lastb -清除登陆系统失败的记录，也就是lastb命令看到的记录</p>
-<ul>
-<li>echo “”&gt; /var/log/btmp</li>
-</ul>
-</li>
-<li><p>history -c &lt;== 清除历史执行命令</p>
-<ul>
-<li>echo “”&gt; ./.bash_history &lt;==或者，清空用户目录下的这个文件即可</li>
-</ul>
-</li>
-</ul>
+<pre class=" language-bash"><code class="language-bash">    <span class="token operator">&lt;</span><span class="token operator">!</span>-- 本地连接 --<span class="token operator">></span>
+    <span class="token operator">&lt;</span>elasticsearch:
+        transport-client id<span class="token operator">=</span><span class="token string">"localClient"</span> 
+        cluster-nodes<span class="token operator">=</span><span class="token string">"192.168.3.138:9300,192.168.3.138:9301,192.168.3.138:9302"</span>  
+        cluster-name<span class="token operator">=</span><span class="token string">"es-5.5.0-yg"</span>  
+        client-transport-sniff<span class="token operator">=</span><span class="token string">"false"</span> 
+    /<span class="token operator">></span>
+
+    <span class="token operator">&lt;</span>bean name<span class="token operator">=</span><span class="token string">"localEsClient"</span> class<span class="token operator">=</span><span class="token string">"org.springframework.data.elasticsearch.core.ElasticsearchTemplate"</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>constructor-arg ref<span class="token operator">=</span><span class="token string">"localClient"</span>/<span class="token operator">></span>
+    <span class="token operator">&lt;</span>/bean<span class="token operator">></span>
+</code></pre>
+<p>这里注意一点多节点 cluster-name 必须同一个集群下，代码里操作<code>ElasticsearchTemplate</code></p>
+<pre class=" language-java"><code class="language-java"> <span class="token annotation punctuation">@Resource</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"localEsClient"</span><span class="token punctuation">)</span>
+ <span class="token keyword">private</span> ElasticsearchTemplate elasticsearchTemplate<span class="token punctuation">;</span>
+</code></pre>
 </section>
     <!-- Tags START -->
     
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/tags#Linux" >
-    <span class="tag-code">Linux</span>
+  <a href="/tags#搜索引擎" >
+    <span class="tag-code">搜索引擎</span>
   </a>
 
       </div>
@@ -316,20 +284,13 @@
   <div class="nav-container">
     <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <a class="nav-left" href="/2018/07/14/list遍历删除元素/">
+      <a class="nav-left" href="/2018/08/09/elasticsearch案例/">
         <span class="nav-arrow">← </span>
         
-          list遍历删除元素
+          elasticsearch案例
         
       </a>
     
-    
-      <a class="nav-right" href="/2018/07/23/LeetCode-去除数组中重复数字/">
-        
-          LeetCode-去除数组中重复数字
-        
-        <span class="nav-arrow"> →</span>
-      </a>
     
   </div>
 
@@ -375,7 +336,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#常用命令"><span class="toc-nav-text">常用命令</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-文件管理"><span class="toc-nav-text">1.文件管理</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2文档编辑"><span class="toc-nav-text">2文档编辑</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3备份压缩"><span class="toc-nav-text">3备份压缩</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3清除操作记录"><span class="toc-nav-text">3清除操作记录</span></a></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#单机集群配置"><span class="toc-nav-text">单机集群配置</span></a></li></ol>
     
   </div>
 </aside>
@@ -385,7 +346,7 @@
 
 <script>
   (function () {
-    var url = 'http://yoursite.com/2018/07/17/Linux常用命令汇总/';
+    var url = 'http://yoursite.com/2018/08/24/elasticsearch集群/';
     var banner = ''
     if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
       $('#article-banner').css({
@@ -441,7 +402,7 @@
     var gitmentConfig = "wolfyg";
     if (gitmentConfig !== 'undefined') {
       var gitment = new Gitment({
-        id: "Linux常用命令汇总",
+        id: "elasticsearch集群",
         owner: "wolfyg",
         repo: "wolfyg.github.io",
         oauth: {
